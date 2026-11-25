@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Modules\Content\Enums;
+
+enum ContactMessageStatus: string
+{
+    case New = 'new';
+    case Replied = 'replied';
+    case Closed = 'closed';
+
+    public function label(): string
+    {
+        return match ($this) {
+            self::New => __('New'),
+            self::Replied => __('Replied'),
+            self::Closed => __('Closed'),
+        };
+    }
+}

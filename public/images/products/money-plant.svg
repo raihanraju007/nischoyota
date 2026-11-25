@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900">
+<defs><radialGradient id="bg" cx="50%" cy="35%" r="75%"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#e3eedc"/></radialGradient></defs>
+<rect width="900" height="900" fill="url(#bg)"/>
+<ellipse cx="450" cy="790" rx="190" ry="26" fill="#000" opacity=".10"/>
+<g stroke="#2f6b3a" stroke-width="6" fill="none"><path d="M450 560c-40-120-160-160-220-260"/><path d="M450 560c30-140 140-180 210-300"/><path d="M450 560c0-150-20-260 0-380"/></g>
+<g fill="#5c9a3e" stroke="#1f4d29" stroke-width="4">
+<path d="M300 380c-50-10-80 20-80 60 50 10 80-20 80-60z"/><path d="M250 300c-40-30-90-10-100 30 40 30 90 10 100-30z"/>
+<path d="M600 380c50-10 80 20 80 60-50 10-80-20-80-60z"/><path d="M640 280c40-30 90-10 100 30-40 30-90 10-100-30z"/>
+<path d="M450 300c-40-30-90-10-100 30 40 30 90 10 100-30z"/><path d="M450 200c40-30 90-10 100 30-40 30-90 10-100-30z"/>
+<path d="M380 470c-50-10-80 20-80 60 50 10 80-20 80-60z"/><path d="M520 460c50-10 80 20 80 60-50 10-80-20-80-60z"/>
+</g>
+<path d="M320 560h260l-30 230H350z" fill="#faf5e9" stroke="#2f6b3a" stroke-width="6"/><rect x="305" y="545" width="290" height="36" rx="10" fill="#2f6b3a"/>
+</svg>
