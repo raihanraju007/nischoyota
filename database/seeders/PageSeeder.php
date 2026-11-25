@@ -24,12 +24,19 @@ class PageSeeder extends Seeder
 
     public function run(): void
     {
+        $banglaContent = require database_path('data/catalog_bn.php');
+
         foreach (self::SYSTEM_PAGES as $slug => [$title, $subtitle]) {
+            [$banglaTitle, $banglaSubtitle] = $banglaContent['pages'][$slug];
+
             $page = new Page([
                 'slug' => $slug,
                 'title' => $title,
+                'title_bn' => $banglaTitle,
                 'subtitle' => $subtitle,
+                'subtitle_bn' => $banglaSubtitle,
                 'body' => file_get_contents(database_path("data/pages/{$slug}.md")),
+                'body_bn' => file_get_contents(database_path("data/pages/bn/{$slug}.md")),
                 'is_published' => true,
             ]);
             $page->forceFill(['is_system' => true])->save();

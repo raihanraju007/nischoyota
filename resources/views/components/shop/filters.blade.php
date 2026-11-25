@@ -31,7 +31,7 @@
     <div class="filter-block">
         @switch($block)
             @case('category')
-                <h3>Category</h3>
+                <h3>{{ __('Category') }}</h3>
                 <ul class="filter-list">
                     @foreach ($options->categories as $category)
                         <li><label class="check"><input type="checkbox" name="category[]" value="{{ $category['slug'] }}" @checked(in_array($category['slug'], $filter->categorySlugs, true))> {{ $category['name'] }} <span class="filter-count">({{ $category['count'] }})</span></label></li>
@@ -40,21 +40,21 @@
                 @break
 
             @case('price')
-                <h3>Price (৳)</h3>
+                <h3>{{ __('Price (৳)') }}</h3>
                 <div class="price-inputs">
-                    <label class="visually-hidden" for="{{ $prefix }}-price-min">Minimum price (৳)</label>
-                    <input class="input" type="number" id="{{ $prefix }}-price-min" name="price_min" placeholder="Min" min="0" step="1"
+                    <label class="visually-hidden" for="{{ $prefix }}-price-min">{{ __('Minimum price (৳)') }}</label>
+                    <input class="input" type="number" id="{{ $prefix }}-price-min" name="price_min" placeholder="{{ __('Min') }}" min="0" step="1"
                            value="{{ $filter->priceMin === null ? '' : Money::toTakaInput($filter->priceMin) }}">
                     <span>–</span>
-                    <label class="visually-hidden" for="{{ $prefix }}-price-max">Maximum price (৳)</label>
-                    <input class="input" type="number" id="{{ $prefix }}-price-max" name="price_max" placeholder="Max" min="0" step="1"
+                    <label class="visually-hidden" for="{{ $prefix }}-price-max">{{ __('Maximum price (৳)') }}</label>
+                    <input class="input" type="number" id="{{ $prefix }}-price-max" name="price_max" placeholder="{{ __('Max') }}" min="0" step="1"
                            value="{{ $filter->priceMax === null ? '' : Money::toTakaInput($filter->priceMax) }}">
                 </div>
-                <div class="filter-apply"><button class="btn btn-sm btn-primary" type="submit">Go</button></div>
+                <div class="filter-apply"><button class="btn btn-sm btn-primary" type="submit">{{ __('Go') }}</button></div>
                 @break
 
             @case('brand')
-                <h3>Brand</h3>
+                <h3>{{ __('Brand') }}</h3>
                 <ul class="filter-list">
                     @foreach ($options->brands as $brand)
                         <li><label class="check"><input type="checkbox" name="brand[]" value="{{ $brand['slug'] }}" @checked(in_array($brand['slug'], $filter->brandSlugs, true))> {{ $brand['name'] }}</label></li>
@@ -63,57 +63,57 @@
                 @break
 
             @case('rating')
-                <h3>Rating</h3>
+                <h3>{{ __('Rating') }}</h3>
                 <ul class="filter-list">
                     @foreach ([4, 3, 2] as $stars)
-                        <li><label class="check"><input type="radio" name="rating" value="{{ $stars }}" @checked($filter->minRating === $stars)> <x-stars :rating="$stars" /> {{ $stars }}★ &amp; up</label></li>
+                        <li><label class="check"><input type="radio" name="rating" value="{{ $stars }}" @checked($filter->minRating === $stars)> <x-stars :rating="$stars" /> {{ __(':stars★ & up', ['stars' => \App\Support\Numerals::localize($stars)]) }}</label></li>
                     @endforeach
                     @if ($filter->minRating !== null)
-                        <li><label class="check"><input type="radio" name="rating" value=""> Any rating</label></li>
+                        <li><label class="check"><input type="radio" name="rating" value=""> {{ __('Any rating') }}</label></li>
                     @endif
                 </ul>
                 @break
 
             @case('availability')
-                <h3>Availability</h3>
+                <h3>{{ __('Availability') }}</h3>
                 <ul class="filter-list">
-                    <li><label class="check"><input type="checkbox" name="availability[]" value="in-stock" @checked($filter->onlyInStock)> In Stock</label></li>
-                    <li><label class="check"><input type="checkbox" name="availability[]" value="pre-order" @checked($filter->onlyPreorder)> Pre-order</label></li>
+                    <li><label class="check"><input type="checkbox" name="availability[]" value="in-stock" @checked($filter->onlyInStock)> {{ __('In Stock') }}</label></li>
+                    <li><label class="check"><input type="checkbox" name="availability[]" value="pre-order" @checked($filter->onlyPreorder)> {{ __('Pre-order') }}</label></li>
                 </ul>
                 @break
 
             @case('discount')
-                <h3>Discount</h3>
+                <h3>{{ __('Discount') }}</h3>
                 <ul class="filter-list">
                     @foreach ([10, 20, 40] as $percent)
-                        <li><label class="check"><input type="radio" name="discount" value="{{ $percent }}" @checked($filter->minDiscount === $percent)> {{ $percent }}% or more</label></li>
+                        <li><label class="check"><input type="radio" name="discount" value="{{ $percent }}" @checked($filter->minDiscount === $percent)> {{ __(':percent% or more', ['percent' => \App\Support\Numerals::localize($percent)]) }}</label></li>
                     @endforeach
                     @if ($filter->minDiscount !== null)
-                        <li><label class="check"><input type="radio" name="discount" value=""> Any discount</label></li>
+                        <li><label class="check"><input type="radio" name="discount" value=""> {{ __('Any discount') }}</label></li>
                     @endif
                 </ul>
                 @break
 
             @case('color')
-                <h3>Color</h3>
+                <h3>{{ __('Color') }}</h3>
                 <div class="color-swatches">
                     @foreach ($options->colors as $color)
-                        <label class="swatch-check" title="{{ $color['value'] }}">
+                        <label class="swatch-check" title="{{ __($color['value']) }}">
                             <input type="checkbox" name="color[]" value="{{ $color['id'] }}" @checked(in_array($color['id'], $filter->colorValueIds, true))>
                             <span class="swatch" style="background: {{ $color['hex'] ?? '#e5e7eb' }}" aria-hidden="true"></span>
-                            <span class="visually-hidden">Filter by color: {{ $color['value'] }}</span>
+                            <span class="visually-hidden">{{ __('Filter by color: :color', ['color' => $color['value']]) }}</span>
                         </label>
                     @endforeach
                 </div>
                 @break
 
             @case('size')
-                <h3>Size</h3>
+                <h3>{{ __('Size') }}</h3>
                 <div class="size-options">
                     @foreach ($options->sizes as $size)
                         <label class="size-check">
                             <input type="checkbox" name="size[]" value="{{ $size['id'] }}" @checked(in_array($size['id'], $filter->sizeValueIds, true))>
-                            <span class="size-btn">{{ $size['value'] }}</span>
+                            <span class="size-btn">{{ __($size['value']) }}</span>
                         </label>
                     @endforeach
                 </div>

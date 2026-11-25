@@ -9,4 +9,4 @@
     $value = $isEnum ? $status->value : $status;
 @endphp
 
-<span class="status status-{{ $value }}">{{ $isEnum ? $status->label() : ucfirst($status) }}</span>
+<span class="status status-{{ $value }}">{{ $isEnum ? $status->label() : __(ucfirst($status)) }}</span>

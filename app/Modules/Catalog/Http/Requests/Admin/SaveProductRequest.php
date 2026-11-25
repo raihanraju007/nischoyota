@@ -46,11 +46,14 @@ final class SaveProductRequest extends FormRequest
         return [
             ...($this->hasOptions() ? [] : $this->defaultVariantRules($product)),
             'name' => ['required', 'string', 'max:255'],
+            'name_bn' => ['nullable', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255', 'regex:'.self::SLUG_PATTERN, Rule::unique('products', 'slug')->ignore($product)],
             'category_id' => ['required', 'integer', Rule::exists('categories', 'id')],
             'brand_id' => ['nullable', 'integer', Rule::exists('brands', 'id')],
             'short_description' => ['nullable', 'string', 'max:500'],
+            'short_description_bn' => ['nullable', 'string', 'max:500'],
             'description' => ['nullable', 'string', 'max:20000'],
+            'description_bn' => ['nullable', 'string', 'max:20000'],
             'sell_unit' => ['nullable', Rule::enum(SellUnit::class)],
             'unit_quantity' => ['nullable', 'numeric', 'decimal:0,2', 'gt:0', 'max:100000'],
             'status' => ['required', Rule::enum(ProductStatus::class)],
@@ -113,6 +116,9 @@ final class SaveProductRequest extends FormRequest
     {
         return new ProductData(
             name: $this->string('name')->trim()->toString(),
+            nameBn: $this->nullableString('name_bn'),
+            shortDescriptionBn: $this->nullableString('short_description_bn'),
+            descriptionBn: $this->nullableString('description_bn'),
             slug: $this->nullableString('slug'),
             categoryId: $this->integer('category_id'),
             brandId: $this->filled('brand_id') ? $this->integer('brand_id') : null,

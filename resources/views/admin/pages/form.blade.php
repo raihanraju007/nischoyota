@@ -21,6 +21,9 @@
                     <x-form.input name="title" label="Title" :value="$page?->title" maxlength="120" required />
                     <x-form.input name="subtitle" label="Subtitle" :value="$page?->subtitle" maxlength="255" optional hint="The line under the title on the page." />
                     <x-form.textarea name="body" label="Content" rows="22" class="textarea-code" :value="$page?->body" required />
+                    <x-form.input name="title_bn" label="Title (বাংলা)" :value="$page?->title_bn" maxlength="120" optional hint="Shown instead of the title when the visitor uses Bangla." />
+                    <x-form.input name="subtitle_bn" label="Subtitle (বাংলা)" :value="$page?->subtitle_bn" maxlength="255" optional />
+                    <x-form.textarea name="body_bn" label="Content (বাংলা)" rows="22" class="textarea-code" :value="$page?->body_bn" optional />
                 </section>
             </div>
 

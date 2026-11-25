@@ -145,7 +145,7 @@ final class ProductListingRepository
             ->whereKey($brandIds)
             ->where('is_active', true)
             ->orderBy('name')
-            ->get(['slug', 'name'])
+            ->get(['slug', 'name', 'name_bn'])
             ->map(fn (Brand $brand): array => ['slug' => $brand->slug, 'name' => $brand->name])
             ->all();
     }
@@ -289,7 +289,7 @@ final class ProductListingRepository
             ->where('is_active', true)
             ->ordered()
             ->with('children:id,parent_id')
-            ->get(['id', 'name', 'slug', 'image'])
+            ->get(['id', 'name', 'name_bn', 'slug', 'image'])
             ->map(fn (Category $department): array => [
                 'department' => $department,
                 'count' => (int) $countsByCategory->only([$department->id, ...$department->children->modelKeys()])->sum(),
@@ -325,9 +325,10 @@ final class ProductListingRepository
 
             $query->where(fn (Builder $matches) => $matches
                 ->whereLike('name', $term)
+                ->orWhereLike('name_bn', $term)
                 ->orWhereHas('variants', fn (Builder $variants) => $variants->whereLike('sku', $term))
-                ->orWhereHas('brand', fn (Builder $brand) => $brand->whereLike('name', $term))
-                ->orWhereHas('category', fn (Builder $category) => $category->whereLike('name', $term)));
+                ->orWhereHas('brand', fn (Builder $brand) => $brand->whereLike('name', $term)->orWhereLike('name_bn', $term))
+                ->orWhereHas('category', fn (Builder $category) => $category->whereLike('name', $term)->orWhereLike('name_bn', $term)));
         }
     }
 

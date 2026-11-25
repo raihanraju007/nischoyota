@@ -29,15 +29,15 @@
     <p class="mb-0">{{ $slot }}</p>
 
     <x-slot:footer>
-        <button class="btn btn-ghost" type="button" data-modal-close>{{ $cancelLabel }}</button>
+        <button class="btn btn-ghost" type="button" data-modal-close>{{ __($cancelLabel) }}</button>
         @if ($method)
             <form method="POST" action="{{ $action }}" data-confirm-form>
                 @csrf
                 @method($method)
-                <button class="btn btn-danger" type="submit">{{ $confirmLabel }}</button>
+                <button class="btn btn-danger" type="submit">{{ __($confirmLabel) }}</button>
             </form>
         @else
-            <button class="btn btn-danger" type="button" data-modal-close @if ($toast) data-toast="{{ $toast }}" data-toast-type="info" @endif>{{ $confirmLabel }}</button>
+            <button class="btn btn-danger" type="button" data-modal-close @if ($toast) data-toast="{{ $toast }}" data-toast-type="info" @endif>{{ __($confirmLabel) }}</button>
         @endif
     </x-slot:footer>
 </x-modal>

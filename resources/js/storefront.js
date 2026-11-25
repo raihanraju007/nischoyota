@@ -7,6 +7,17 @@
   var $ = function (sel, ctx) { return (ctx || document).querySelector(sel); };
   var $$ = function (sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); };
 
+  /* Bangla numerals while the page language is Bangla (display only). */
+  var isBangla = document.documentElement.lang === "bn";
+  var BANGLA_DIGITS = "০১২৩৪৫৬৭৮৯";
+  function localizeDigits(value) {
+    var text = String(value);
+    return isBangla ? text.replace(/[0-9]/g, function (d) { return BANGLA_DIGITS.charAt(d); }) : text;
+  }
+  function asciiDigits(value) {
+    return String(value).replace(/[০-৯]/g, function (d) { return BANGLA_DIGITS.indexOf(d); });
+  }
+
   /* ---------- Toasts ---------- */
   var ICONS = {
     success: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg>',
@@ -101,7 +112,7 @@
         host.appendChild(badge);
       }
       if (badge) {
-        badge.textContent = count;
+        badge.textContent = localizeDigits(count);
         badge.hidden = count <= 0;
       }
     });
@@ -197,8 +208,8 @@
   /* ---------- Wishlist badge counter (visual only, prototype pages) ---------- */
   function bumpBadge(sel, delta) {
     $$(sel).forEach(function (b) {
-      var n = parseInt(b.textContent, 10) || 0;
-      b.textContent = Math.max(0, n + delta);
+      var n = parseInt(asciiDigits(b.textContent), 10) || 0;
+      b.textContent = localizeDigits(Math.max(0, n + delta));
     });
   }
 
@@ -521,7 +532,7 @@
       m: cd.querySelector('[data-u="m"]'),
       s: cd.querySelector('[data-u="s"]')
     };
-    function pad(n) { return (n < 10 ? "0" : "") + n; }
+    function pad(n) { return localizeDigits((n < 10 ? "0" : "") + n); }
     function tick() {
       var diff = Math.max(0, end - Date.now());
       var s = Math.floor(diff / 1000);

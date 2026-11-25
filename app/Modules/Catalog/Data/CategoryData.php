@@ -16,5 +16,6 @@ final readonly class CategoryData
         public bool $isActive,
         public ?string $metaTitle,
         public ?string $metaDescription,
+        public ?string $nameBn = null,
     ) {}
 }

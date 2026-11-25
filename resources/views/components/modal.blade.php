@@ -22,7 +22,7 @@
         @if ($title)
             <div class="modal-head">
                 <h2 id="{{ $id }}-title">{{ $title }}</h2>
-                <button class="modal-close" data-modal-close aria-label="Close">
+                <button class="modal-close" data-modal-close aria-label="{{ __('Close') }}">
                     <x-icon name="close" class="icon-sm" />
                 </button>
             </div>

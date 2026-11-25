@@ -19,12 +19,12 @@
     $images = $product->images;
     $mainImageUrl = $selected['imageUrl'] ?? $images->first()?->url() ?? asset('images/products/placeholder.svg');
     $specifications = $product->specifications ?? [];
-    $badgeLabels = ['best' => 'BEST SELLER', 'new' => 'NEW'];
+    $badgeLabels = ['best' => __('BEST SELLER'), 'new' => __('NEW')];
     $tabs = array_filter([
-        'description' => $descriptionHtml !== '' ? 'Description' : null,
-        'specs' => $specifications !== [] ? 'Specifications' : null,
-        'reviews' => 'Reviews ('.$reviewSummary->count.')',
-        'shipping' => 'Shipping & Returns',
+        'description' => $descriptionHtml !== '' ? __('Description') : null,
+        'specs' => $specifications !== [] ? __('Specifications') : null,
+        'reviews' => __('Reviews').' ('.\App\Support\Numerals::localize($reviewSummary->count).')',
+        'shipping' => __('Shipping & Returns'),
     ]);
 @endphp
 
@@ -57,16 +57,16 @@
 
                 <div class="product-meta-row">
                     @if ($product->brand)
-                        <span>Brand: <a href="{{ route('shop', ['brand' => [$product->brand->slug]]) }}">{{ $product->brand->name }}</a></span>
+                        <span>{{ __('Brand:') }} <a href="{{ route('shop', ['brand' => [$product->brand->slug]]) }}">{{ $product->brand->name }}</a></span>
                         <span class="divider" aria-hidden="true">·</span>
                     @endif
                     <a href="#tab-reviews">
                         <x-stars :rating="(float) $product->rating_average" />
-                        {{ number_format((float) $product->rating_average, 1) }} ({{ trans_choice(':count review|:count reviews', $product->rating_count) }})
+                        {{ \App\Support\Numerals::localize(number_format((float) $product->rating_average, 1)) }} ({{ \App\Support\Numerals::localize(trans_choice(':count review|:count reviews', $product->rating_count)) }})
                     </a>
                     @if ($selected)
                         <span class="divider" aria-hidden="true">·</span>
-                        <span>SKU: <span data-variant-sku>{{ $selected['sku'] }}</span></span>
+                        <span>{{ __('SKU:') }} <span data-variant-sku>{{ $selected['sku'] }}</span></span>
                     @endif
                 </div>
 
@@ -87,29 +87,29 @@
 
                 @foreach ($optionGroups as $group)
                     <div class="variant-group">
-                        <h3>{{ $group['name'] }}:
-                            <span id="sel-attr-{{ $group['attributeId'] }}">{{ collect($group['values'])->firstWhere(fn ($value) => in_array($value['id'], $selectedValueIds, true))['label'] ?? '' }}</span>
+                        <h3>{{ __($group['name']) }}:
+                            <span id="sel-attr-{{ $group['attributeId'] }}">{{ __(collect($group['values'])->firstWhere(fn ($value) => in_array($value['id'], $selectedValueIds, true))['label'] ?? '') }}</span>
                         </h3>
                         <div class="variant-options" data-label="sel-attr-{{ $group['attributeId'] }}" data-variant-group>
                             @foreach ($group['values'] as $value)
                                 <button type="button" @class(['variant-btn', 'active' => in_array($value['id'], $selectedValueIds, true)])
-                                        data-value="{{ $value['label'] }}" data-value-id="{{ $value['id'] }}">
+                                        data-value="{{ __($value['label']) }}" data-value-id="{{ $value['id'] }}">
                                     @if ($value['hex'])<span class="swatch swatch-sm" style="background: {{ $value['hex'] }}" aria-hidden="true"></span>@endif
-                                    {{ $value['label'] }}
+                                    {{ __($value['label']) }}
                                 </button>
                             @endforeach
                         </div>
                     </div>
                 @endforeach
 
-                <p class="stock-note stock-out" data-variant-unavailable hidden>This combination is not available. Please choose another option.</p>
+                <p class="stock-note stock-out" data-variant-unavailable hidden>{{ __('This combination is not available. Please choose another option.') }}</p>
 
                 <form class="buy-row" method="POST" action="{{ route('cart.items.store') }}" data-buy-form data-cart-add>
                     @csrf
                     <input type="hidden" name="variant_id" value="{{ $selected['id'] ?? '' }}" data-variant-id>
                     @if (count($pickerVariants) > 1)
                         <noscript>
-                            <label class="visually-hidden" for="variant-select">Option</label>
+                            <label class="visually-hidden" for="variant-select">{{ __('Option') }}</label>
                             <select class="select" id="variant-select" name="variant_id">
                                 @foreach ($pickerVariants as $variant)
                                     <option value="{{ $variant['id'] }}" @selected($variant['isDefault']) @disabled(! $variant['canBuy'])>{{ $variant['label'] }} — {{ $variant['price'] }}</option>
@@ -120,9 +120,9 @@
                     <x-qty-control name="quantity" />
                     <button class="btn btn-primary" type="submit" data-add-to-cart data-variant-buy @disabled(! ($selected['canBuy'] ?? false))>
                         <x-icon name="cart" class="icon-sm" />
-                        Add to Cart
+                        {{ __('Add to Cart') }}
                     </button>
-                    <button class="btn btn-accent" type="submit" name="buy_now" value="1" data-variant-buy @disabled(! ($selected['canBuy'] ?? false))>Buy Now</button>
+                    <button class="btn btn-accent" type="submit" name="buy_now" value="1" data-variant-buy @disabled(! ($selected['canBuy'] ?? false))>{{ __('Buy Now') }}</button>
                     @php($isWishlisted = in_array($product->id, $wishlistedProductIds, true))
                     <button @class(['icon-btn-outline', 'active' => $isWishlisted]) type="submit" form="wishlist-form" data-wishlist aria-pressed="{{ $isWishlisted ? 'true' : 'false' }}" aria-label="Save {{ $product->name }} to wishlist">
                         <x-icon name="heart" class="icon-sm" />
@@ -135,24 +135,24 @@
                 <ul class="delivery-box">
                     <li>
                         <x-icon name="truck" class="icon-sm" />
-                        <div><strong>Cash on Delivery Available</strong><span>Pay when your order arrives.</span></div>
+                        <div><strong>{{ __('Cash on Delivery Available') }}</strong><span>{{ __('Pay when your order arrives.') }}</span></div>
                     </li>
                     <li>
                         <x-icon name="map-pin" class="icon-sm" />
-                        <div><strong>Delivery across Bangladesh</strong><span>All 64 districts.</span></div>
+                        <div><strong>{{ __('Delivery across Bangladesh') }}</strong><span>{{ __('All 64 districts.') }}</span></div>
                     </li>
                     @if ($delivery['zones'] !== [])
                         <li>
                             <x-icon name="shield" class="icon-sm" />
                             <div>
-                                <strong>Estimated delivery: {{ $delivery['minDays'] === $delivery['maxDays'] ? $delivery['minDays'] : $delivery['minDays'].'–'.$delivery['maxDays'] }} days</strong>
+                                <strong>{{ __('Estimated delivery: :days days', ['days' => \App\Support\Numerals::localize($delivery['minDays'] === $delivery['maxDays'] ? $delivery['minDays'] : $delivery['minDays'].'–'.$delivery['maxDays'])]) }}</strong>
                                 <span>{{ collect($delivery['zones'])->map(fn ($zone) => $zone['name'].' '.$zone['charge'])->implode(' · ') }}</span>
                             </div>
                         </li>
                     @endif
                     <li>
                         <x-icon name="return" class="icon-sm" />
-                        <div><strong>7-day easy returns</strong><span><a href="{{ route('returns') }}">See the return policy</a></span></div>
+                        <div><strong>{{ __('7-day easy returns') }}</strong><span><a href="{{ route('returns') }}">{{ __('See the return policy') }}</a></span></div>
                     </li>
                 </ul>
             </div>
@@ -160,7 +160,7 @@
 
         {{-- Tabs --}}
         <div class="tabs">
-            <div class="tab-list" role="tablist" aria-label="Product information">
+            <div class="tab-list" role="tablist" aria-label="{{ __('Product information') }}">
                 @foreach ($tabs as $key => $label)
                     <button @class(['tab-btn', 'active' => $loop->first]) type="button" role="tab" id="tabbtn-{{ $key }}" aria-controls="tab-{{ $key }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}">{{ $label }}</button>
                 @endforeach
@@ -177,7 +177,7 @@
                             <table class="spec-table">
                                 <tbody>
                                     @foreach ($specifications as $specification)
-                                        <tr><th scope="row">{{ $specification['label'] }}</th><td>{{ $specification['value'] }}</td></tr>
+                                        <tr><th scope="row">{{ __($specification['label']) }}</th><td>{{ __($specification['value']) }}</td></tr>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -199,16 +199,16 @@
                                 </div>
 
                                 @foreach ($approvedReviews as $review)
-                                    <x-product-review :author="$review->user->name" :date="$review->created_at->timezone(config('shop.timezone'))->format('d M Y')"
+                                    <x-product-review :author="$review->user->name" :date="\App\Support\Numerals::date($review->created_at->timezone(config('shop.timezone')))"
                                         :rating="$review->rating" :verified="$review->is_verified_purchase">{{ $review->comment }}</x-product-review>
                                 @endforeach
                             @else
-                                <p class="text-light">No reviews yet. Be the first to review this product.</p>
+                                <p class="text-light">{{ __('No reviews yet. Be the first to review this product.') }}</p>
                             @endif
 
                             <div class="review-form-wrap" id="write-review">
                                 @if (! auth()->check())
-                                    <a class="btn btn-outline" href="{{ route('login') }}">Sign in to write a review</a>
+                                    <a class="btn btn-outline" href="{{ route('login') }}">{{ __('Sign in to write a review') }}</a>
                                 @elseif ($canWriteReview)
                                     <h3>{{ $ownReview ? 'Update your review' : 'Write a review' }}</h3>
                                     @if ($ownReview)
@@ -223,7 +223,7 @@
                                     <form method="POST" action="{{ route('products.reviews.store', $product->slug) }}" class="review-form">
                                         @csrf
                                         <fieldset class="rating-input">
-                                            <legend>Your rating <span class="required">*</span></legend>
+                                            <legend>{{ __('Your rating') }} <span class="required">*</span></legend>
                                             <div class="rating-stars">
                                             @foreach ([5, 4, 3, 2, 1] as $stars)
                                                 <input type="radio" id="rating-{{ $stars }}" name="rating" value="{{ $stars }}" @checked((int) old('rating', $ownReview?->rating) === $stars)>
@@ -232,7 +232,7 @@
                                             </div>
                                         </fieldset>
                                         @error('rating')<p class="form-error">{{ $message }}</p>@enderror
-                                        <x-form.textarea name="comment" id="review-comment" label="Your review" rows="4" required maxlength="1000"
+                                        <x-form.textarea name="comment" id="review-comment" :label="__('Your review')" rows="4" required maxlength="1000"
                                             :value="$ownReview?->comment" placeholder="What did you like or dislike? How was the quality?" />
                                         <button class="btn btn-primary" type="submit">{{ $ownReview ? 'Update Review' : 'Submit Review' }}</button>
                                     </form>
@@ -241,20 +241,20 @@
                             @break
 
                         @case('shipping')
-                            <h3>Delivery</h3>
-                            <p>We deliver across Bangladesh. Cash on Delivery is available everywhere — you pay when your order arrives.</p>
+                            <h3>{{ __('Delivery') }}</h3>
+                            <p>{{ __('We deliver across Bangladesh. Cash on Delivery is available everywhere — you pay when your order arrives.') }}</p>
                             @if ($delivery['zones'] !== [])
                                 <ul>
                                     @foreach ($delivery['zones'] as $zone)
                                         <li><strong>{{ $zone['name'] }}:</strong> {{ $zone['charge'] }}, {{ $zone['days'] }}</li>
                                     @endforeach
                                     @if ($delivery['freeFrom'])
-                                        <li><strong>Free delivery</strong> on orders of {{ $delivery['freeFrom'] }} or more</li>
+                                        <li><strong>{{ __('Free delivery') }}</strong> on orders of {{ $delivery['freeFrom'] }} or more</li>
                                     @endif
                                 </ul>
                             @endif
-                            <h3>Returns</h3>
-                            <p>You can return this product within 7 days of delivery if it is unused and in its original packaging. See the <a href="{{ route('returns') }}">Return &amp; Refund Policy</a> for details.</p>
+                            <h3>{{ __('Returns') }}</h3>
+                            <p>{{ __('You can return this product within 7 days of delivery if it is unused and in its original packaging. See the') }} <a href="{{ route('returns') }}">{{ __('Return & Refund Policy') }}</a> {{ __('for details.') }}</p>
                             @break
                     @endswitch
                 </div>
@@ -265,7 +265,7 @@
     @if ($relatedCards !== [])
         <section class="section" aria-labelledby="related-title">
             <div class="container">
-                <x-section-heading id="related-title" title="You May Also Like" :subtitle="'More products from '.$department->name" :link-url="route('category', $department->slug)" />
+                <x-section-heading id="related-title" :title="__('You May Also Like')" :subtitle="'More products from '.$department->name" :link-url="route('category', $department->slug)" />
                 <div class="grid-products">
                     @foreach ($relatedCards as $card)
                         <x-product-card :card="$card" />

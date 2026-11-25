@@ -17,6 +17,7 @@ Settled decisions. **AI must not reopen an Accepted ADR.** To change one, write 
 | [011](decisions/ADR-011-settings-table.md) | Store settings in a database table | Accepted | 2026-10-06 |
 | [012](decisions/ADR-012-admin-roles.md) | Admin and staff roles | Accepted | 2026-10-06 |
 | [013](decisions/ADR-013-inventory-owns-stock.md) | Inventory owns the stock column | Accepted | 2026-10-06 |
+| [014](decisions/ADR-014-bangla-default-language.md) | Bangla default language, clothing paused | Accepted | 2026-11-25 |
 
 New ADR: copy [decisions/_template.md](decisions/_template.md) to `decisions/ADR-NNN-short-name.md` and add a row here.
 Status values: `Proposed` → `Accepted` / `Rejected` → later `Superseded by ADR-NNN`.

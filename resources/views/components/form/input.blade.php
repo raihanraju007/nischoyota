@@ -26,7 +26,7 @@
     <label for="{{ $id }}">
         {{ $label }}
         @if ($required)<span class="required">*</span>@endif
-        @if ($optional)<span class="text-muted">(optional)</span>@endif
+        @if ($optional)<span class="text-muted">{{ __('(optional)') }}</span>@endif
     </label>
     <input
         {{ $attributes->class(['input', 'is-invalid' => $errors->has($name)]) }}

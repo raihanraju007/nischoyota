@@ -16,24 +16,24 @@
                 @method('PUT')
             @endif
             <div class="form-row">
-                <x-form.select name="label" id="aa-label" label="Address Label" :options="$labelOptions" :selected="$address?->label->value ?? 'home'" required />
-                <x-form.input name="recipient_name" id="aa-name" label="Full Name" placeholder="e.g. Rahim Uddin" maxlength="100"
+                <x-form.select name="label" id="aa-label" :label="__('Address Label')" :options="$labelOptions" :selected="$address?->label->value ?? 'home'" required />
+                <x-form.input name="recipient_name" id="aa-name" :label="__('Full Name')" :placeholder="__('e.g. Rahim Uddin')" maxlength="100"
                               :value="$address?->recipient_name ?? auth()->user()->name" required />
             </div>
-            <x-form.input name="phone" id="aa-phone" type="tel" label="Phone Number" placeholder="01712-345678"
+            <x-form.input name="phone" id="aa-phone" type="tel" :label="__('Phone Number')" placeholder="01712-345678"
                           :value="$address?->phone ?? auth()->user()->phone" required />
 
             <x-address-fields id-prefix="aa"
                               :division-options="$divisionOptions" :district-options="$districtOptions" :upazila-options="$upazilaOptions"
                               :division-id="$address?->division_id" :district-id="$address?->district_id" :upazila-id="$address?->upazila_id" />
 
-            <x-form.input name="area" id="aa-area" label="Area" placeholder="e.g. Dhanmondi 27" maxlength="100" :value="$address?->area" optional />
-            <x-form.textarea name="address_line" id="aa-addr" label="Full Address" rows="2" placeholder="House number, road, landmark…" :value="$address?->address_line" required />
-            <x-form.input name="postal_code" id="aa-post" label="Postal Code" placeholder="1205" inputmode="numeric" maxlength="4" :value="$address?->postal_code" optional />
+            <x-form.input name="area" id="aa-area" :label="__('Area')" :placeholder="__('e.g. Dhanmondi 27')" maxlength="100" :value="$address?->area" optional />
+            <x-form.textarea name="address_line" id="aa-addr" :label="__('Full Address')" rows="2" :placeholder="__('House number, road, landmark…')" :value="$address?->address_line" required />
+            <x-form.input name="postal_code" id="aa-post" :label="__('Postal Code')" placeholder="1205" inputmode="numeric" maxlength="4" :value="$address?->postal_code" optional />
 
             <div class="form-actions">
-                <a class="btn btn-ghost" href="{{ route('account.addresses') }}">Cancel</a>
-                <button class="btn btn-primary" type="submit">Save Address</button>
+                <a class="btn btn-ghost" href="{{ route('account.addresses') }}">{{ __('Cancel') }}</a>
+                <button class="btn btn-primary" type="submit">{{ __('Save Address') }}</button>
             </div>
         </form>
     </div>

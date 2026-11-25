@@ -25,14 +25,14 @@
 ])
 
 <div class="shop-layout">
-    <aside class="filters-sidebar" aria-label="Product filters">
+    <aside class="filters-sidebar" aria-label="{{ __('Product filters') }}">
         <form method="GET" action="{{ url()->current() }}" data-auto-submit data-default-sort="{{ $defaultSort }}">
             <input type="hidden" name="sort" value="{{ $filter->sort->value }}">
             @foreach ($hiddenFields as $name => $value)
                 <input type="hidden" name="{{ $name }}" value="{{ $value }}">
             @endforeach
             <x-shop.filters :blocks="$filters" prefix="f" :options="$options" :filter="$filter" />
-            <button class="btn btn-primary btn-block filter-submit" type="submit">Apply Filters</button>
+            <button class="btn btn-primary btn-block filter-submit" type="submit">{{ __('Apply Filters') }}</button>
         </form>
     </aside>
 
@@ -40,7 +40,7 @@
         <div class="mobile-filter-btns">
             <button class="btn btn-outline" type="button" data-drawer="filter-drawer">
                 <x-icon name="filter" class="icon-sm" />
-                Filter
+                {{ __('Filter') }}
             </button>
             <x-shop.sort-select id="mobile-sort" mobile :options="$sortOptions" :current="$filter->sort" :default-sort="$defaultSort" />
         </div>
@@ -48,9 +48,9 @@
         <div class="shop-toolbar">
             <span class="showing">
                 @if ($products->total() > 0)
-                    Showing {{ $products->firstItem() }}–{{ $products->lastItem() }} of {{ number_format($products->total()) }} {{ Str::plural('product', $products->total()) }}
+                    {{ __('Showing :first–:last of :total :products', ['first' => \App\Support\Numerals::localize($products->firstItem()), 'last' => \App\Support\Numerals::localize($products->lastItem()), 'total' => \App\Support\Numerals::localize(number_format($products->total())), 'products' => trans_choice(__('product|products'), $products->total(), [], app()->getLocale())]) }}
                 @else
-                    No products
+                    {{ __('No products') }}
                 @endif
             </span>
             <div class="toolbar-controls">
@@ -61,15 +61,15 @@
         @if ($chips !== [])
             <div class="active-filters">
                 @foreach ($chips as $chip)
-                    <a class="filter-chip" href="{{ $chip['url'] }}">{{ $chip['label'] }} <span aria-hidden="true">✕</span><span class="visually-hidden">Remove filter</span></a>
+                    <a class="filter-chip" href="{{ $chip['url'] }}">{{ $chip['label'] }} <span aria-hidden="true">✕</span><span class="visually-hidden">{{ __('Remove filter') }}</span></a>
                 @endforeach
-                <a class="filter-clear" href="{{ $clearUrl }}">Clear all</a>
+                <a class="filter-clear" href="{{ $clearUrl }}">{{ __('Clear all') }}</a>
             </div>
         @endif
 
         @if ($products->isEmpty())
-            <x-empty-state icon="search-off" title="No products match these filters" :action-url="$clearUrl" action-label="Clear all filters" small>
-                Try removing a filter or choosing a different price range.
+            <x-empty-state icon="search-off" :title="__('No products match these filters')" :action-url="$clearUrl" action-label="Clear all filters" small>
+                {{ __('Try removing a filter or choosing a different price range.') }}
             </x-empty-state>
         @else
             <div class="grid-products">
@@ -84,7 +84,7 @@
 </div>
 
 @push('overlays')
-    <x-drawer id="filter-drawer" side="left" title="Filters">
+    <x-drawer id="filter-drawer" side="left" :title="__('Filters')">
         <form method="GET" action="{{ url()->current() }}" id="mobile-filters">
             <input type="hidden" name="sort" value="{{ $filter->sort->value }}">
             @foreach ($hiddenFields as $name => $value)
@@ -94,7 +94,7 @@
         </form>
 
         <x-slot:footer>
-            <button class="btn btn-primary btn-block" type="submit" form="mobile-filters">Apply Filters</button>
+            <button class="btn btn-primary btn-block" type="submit" form="mobile-filters">{{ __('Apply Filters') }}</button>
         </x-slot:footer>
     </x-drawer>
 @endpush

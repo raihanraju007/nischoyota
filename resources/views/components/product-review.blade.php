@@ -15,7 +15,7 @@
             <div>
                 <p class="reviewer-name mb-0">
                     {{ $author }}
-                    @if ($verified)<span class="verified">✔ Verified Purchase</span>@endif
+                    @if ($verified)<span class="verified">{{ __('✔ Verified Purchase') }}</span>@endif
                 </p>
                 @if ($location)
                     <p class="reviewer-meta mb-0">{{ $location }}</p>

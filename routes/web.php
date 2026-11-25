@@ -10,3 +10,8 @@
 | app/Modules/<Module>/routes/admin.php (see docs/architecture.md).
 |
 */
+
+use App\Http\Controllers\LocaleController;
+use Illuminate\Support\Facades\Route;
+
+Route::post('/language/{locale}', [LocaleController::class, 'update'])->name('locale.update');

@@ -34,7 +34,7 @@ final class CategoryRepository
             ->where('is_active', true)
             ->ordered()
             ->with(['children' => fn ($query) => $query->where('is_active', true)->ordered()])
-            ->get(['id', 'parent_id', 'name', 'slug']);
+            ->get(['id', 'parent_id', 'name', 'name_bn', 'slug']);
     }
 
     /**

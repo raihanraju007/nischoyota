@@ -17,10 +17,10 @@
 </head>
 <body class="print-body">
     <div class="print-toolbar">
-        <a class="btn btn-ghost btn-sm" href="{{ $backUrl }}">← Back</a>
+        <a class="btn btn-ghost btn-sm" href="{{ $backUrl }}">{{ __('← Back') }}</a>
         <strong>{{ $title }}</strong>
         <button class="btn btn-primary btn-sm" type="button" onclick="window.print()">
-            <x-icon name="download" class="icon-sm" /> Print / Save as PDF
+            <x-icon name="download" class="icon-sm" /> {{ __('Print / Save as PDF') }}
         </button>
     </div>
 

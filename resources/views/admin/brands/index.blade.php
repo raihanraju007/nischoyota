@@ -95,6 +95,7 @@
                 @endif
 
                 <x-form.input name="name" id="brand-name" label="Name" placeholder="e.g. Walton" :value="$editingBrand?->name" required />
+                <x-form.input name="name_bn" id="brand-name-bn" label="Name (বাংলা)" placeholder="যেমন ওয়ালটন" :value="$editingBrand?->name_bn" optional />
                 <x-form.input name="slug" id="brand-slug" label="Slug" placeholder="walton" :value="$editingBrand?->slug" hint="Used in the URL. Leave empty to generate from the name." />
 
                 <div class="form-group">

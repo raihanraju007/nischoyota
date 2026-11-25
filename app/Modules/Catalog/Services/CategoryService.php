@@ -138,6 +138,7 @@ final class CategoryService
         return [
             'parent_id' => $data->parentId,
             'name' => $data->name,
+            'name_bn' => $data->nameBn,
             'sort_order' => $data->sortOrder,
             'is_active' => $data->isActive,
             'meta_title' => $data->metaTitle,

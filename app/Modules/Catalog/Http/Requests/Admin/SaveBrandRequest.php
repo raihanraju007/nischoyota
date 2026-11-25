@@ -29,6 +29,7 @@ final class SaveBrandRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:100', Rule::unique('brands', 'name')->ignore($this->brand())],
+            'name_bn' => ['nullable', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:120', 'regex:'.self::SLUG_PATTERN, Rule::unique('brands', 'slug')->ignore($this->brand())],
             'logo' => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp', 'max:1024'],
             'remove_logo' => ['nullable', 'boolean'],
@@ -50,6 +51,7 @@ final class SaveBrandRequest extends FormRequest
     {
         return new BrandData(
             name: $this->string('name')->trim()->toString(),
+            nameBn: $this->filled('name_bn') ? $this->string('name_bn')->trim()->toString() : null,
             slug: $this->filled('slug') ? $this->string('slug')->toString() : null,
             logo: $this->file('logo'),
             shouldRemoveLogo: $this->boolean('remove_logo'),

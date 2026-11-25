@@ -28,6 +28,9 @@ final class SavePageRequest extends FormRequest
 
         return [
             'title' => ['required', 'string', 'max:120'],
+            'title_bn' => ['nullable', 'string', 'max:120'],
+            'subtitle_bn' => ['nullable', 'string', 'max:255'],
+            'body_bn' => ['nullable', 'string', 'max:50000'],
             'slug' => ['nullable', 'string', 'max:120', 'regex:'.self::SLUG_PATTERN, Rule::unique('pages', 'slug')->ignore($page instanceof Page ? $page : null)],
             'subtitle' => ['nullable', 'string', 'max:255'],
             'body' => ['required', 'string', 'max:50000'],
@@ -57,6 +60,9 @@ final class SavePageRequest extends FormRequest
             metaTitle: $this->filled('meta_title') ? $this->string('meta_title')->trim()->toString() : null,
             metaDescription: $this->filled('meta_description') ? $this->string('meta_description')->trim()->toString() : null,
             isPublished: $this->boolean('is_published'),
+            titleBn: $this->filled('title_bn') ? $this->string('title_bn')->trim()->toString() : null,
+            subtitleBn: $this->filled('subtitle_bn') ? $this->string('subtitle_bn')->trim()->toString() : null,
+            bodyBn: $this->filled('body_bn') ? str_replace("\r\n", "\n", $this->string('body_bn')->toString()) : null,
         );
     }
 

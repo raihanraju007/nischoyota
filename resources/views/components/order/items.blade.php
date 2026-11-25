@@ -14,9 +14,9 @@
                 @if (! empty($item['variant']))
                     <span class="mini-qty">{{ $item['variant'] }} · </span>
                 @endif
-                <span class="mini-qty">Qty: {{ $item['quantity'] }}</span>
+                <span class="mini-qty">{{ __('Qty:') }} {{ \App\Support\Numerals::localize($item['quantity']) }}</span>
             </div>
-            <span class="mini-price">{{ $paisa ? \App\Support\Money::format($item['total']) : '৳ '.number_format($item['total']) }}</span>
+            <span class="mini-price">{{ $paisa ? \App\Support\Money::format($item['total']) : '৳ '.\App\Support\Numerals::localize(number_format($item['total'])) }}</span>
         </li>
     @endforeach
 </ul>

@@ -25,8 +25,8 @@
             </div>
         @endif
 
-        <x-empty-state title="Still have questions?" :action-url="route('contact')" action-label="Contact Us" action-class="btn-outline-primary" small>
-            Our support team is happy to help you any day from 9am to 10pm.
+        <x-empty-state :title="__('Still have questions?')" :action-url="route('contact')" action-label="Contact Us" action-class="btn-outline-primary" small>
+            {{ __('Our support team is happy to help you any day from 9am to 10pm.') }}
         </x-empty-state>
     </section>
 </x-layouts.app>

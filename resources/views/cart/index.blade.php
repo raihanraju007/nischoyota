@@ -4,13 +4,13 @@
     $totals    CartTotals (subtotal, coupon discount or error, delivery quote, free-delivery hint) — paisa
 --}}
 @php
-    $deliveryLabel = $totals->delivery ? 'Delivery ('.$totals->delivery->zoneName.')' : 'Delivery';
+    $deliveryLabel = $totals->delivery ? __('Delivery (:zone)', ['zone' => __($totals->delivery->zoneName)]) : __('Delivery');
 @endphp
 
-<x-layouts.app title="Shopping Cart" :breadcrumbs="['Cart' => null]" bottom-nav="cart">
+<x-layouts.app :title="__('Shopping Cart')" :breadcrumbs="['Cart' => null]" bottom-nav="cart">
     <div class="container">
         <div class="page-title-bar">
-            <h1>Shopping Cart</h1>
+            <h1>{{ __('Shopping Cart') }}</h1>
             <p class="result-count mb-0">{{ trans_choice(':count item|:count items', $contents->lineCount()) }}</p>
         </div>
 
@@ -18,10 +18,10 @@
             <div>
                 <div class="cart-panel">
                     <div class="cart-panel-head">
-                        <span>Product</span>
-                        <span>Price</span>
-                        <span>Quantity</span>
-                        <span>Subtotal</span>
+                        <span>{{ __('Product') }}</span>
+                        <span>{{ __('Price') }}</span>
+                        <span>{{ __('Quantity') }}</span>
+                        <span>{{ __('Subtotal') }}</span>
                         <span></span>
                     </div>
 
@@ -35,7 +35,7 @@
                                         <p class="cart-variant mb-0">{{ $line->variantLabel }}</p>
                                     @endif
                                     @if ($line->hasPriceChanged())
-                                        <p class="cart-variant mb-0">Price changed from <x-money :amount="$line->previousPrice" /></p>
+                                        <p class="cart-variant mb-0">{{ __('Price changed from') }} <x-money :amount="$line->previousPrice" /></p>
                                     @endif
                                     @if ($line->note())
                                         <p @class(['stock-note', 'mt-0', 'stock-low' => $line->state->isBuyable(), 'stock-out' => ! $line->state->isBuyable()])>{{ $line->note() }}</p>
@@ -61,21 +61,21 @@
                 </div>
 
                 <div class="cart-footer-actions">
-                    <a class="btn btn-outline" href="{{ route('shop') }}">← Continue Shopping</a>
-                    <button class="btn btn-ghost" type="button" data-modal="modal-confirm-clear">Clear Cart</button>
+                    <a class="btn btn-outline" href="{{ route('shop') }}">{{ __('← Continue Shopping') }}</a>
+                    <button class="btn btn-ghost" type="button" data-modal="modal-confirm-clear">{{ __('Clear Cart') }}</button>
                 </div>
             </div>
 
-            <aside class="summary-card" aria-label="Order summary">
-                <h2>Order Summary</h2>
+            <aside class="summary-card" aria-label="{{ __('Order summary') }}">
+                <h2>{{ __('Order Summary') }}</h2>
 
                 @if ($totals->couponCode)
                     <div class="summary-line">
-                        <span>Coupon <strong>{{ $totals->couponCode }}</strong></span>
+                        <span>{{ __('Coupon') }} <strong>{{ $totals->couponCode }}</strong></span>
                         <form method="POST" action="{{ route('cart.coupon.destroy') }}">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-ghost btn-sm" type="submit">Remove</button>
+                            <button class="btn btn-ghost btn-sm" type="submit">{{ __('Remove') }}</button>
                         </form>
                     </div>
                     @if ($totals->couponError)
@@ -84,9 +84,9 @@
                 @else
                     <form class="coupon-row" method="POST" action="{{ route('cart.coupon.store') }}">
                         @csrf
-                        <label class="visually-hidden" for="coupon-code">Coupon code</label>
-                        <input @class(['input', 'is-invalid' => $errors->has('code')]) type="text" id="coupon-code" name="code" value="{{ is_string(old('code')) ? old('code') : '' }}" placeholder="Coupon code" maxlength="30" @error('code') aria-describedby="coupon-code-error" @enderror>
-                        <button class="btn btn-outline-primary" type="submit">Apply</button>
+                        <label class="visually-hidden" for="coupon-code">{{ __('Coupon code') }}</label>
+                        <input @class(['input', 'is-invalid' => $errors->has('code')]) type="text" id="coupon-code" name="code" value="{{ is_string(old('code')) ? old('code') : '' }}" placeholder="{{ __('Coupon code') }}" maxlength="30" @error('code') aria-describedby="coupon-code-error" @enderror>
+                        <button class="btn btn-outline-primary" type="submit">{{ __('Apply') }}</button>
                     </form>
                     @error('code')
                         <p class="form-error mt-0" id="coupon-code-error">{{ $message }}</p>
@@ -100,29 +100,29 @@
                 @if ($totals->amountToFreeDelivery)
                     <p class="summary-note">
                         <x-icon name="truck" class="icon-sm" />
-                        Add {{ \App\Support\Money::format($totals->amountToFreeDelivery) }} more for free delivery
+                        {{ __('Add :amount more for free delivery', ['amount' => \App\Support\Money::format($totals->amountToFreeDelivery)]) }}
                     </p>
                 @endif
 
                 @if ($contents->canCheckout())
-                    <a class="btn btn-primary btn-lg btn-block" href="{{ route('checkout') }}">Proceed to Checkout</a>
+                    <a class="btn btn-primary btn-lg btn-block" href="{{ route('checkout') }}">{{ __('Proceed to Checkout') }}</a>
                 @else
-                    <span class="btn btn-primary btn-lg btn-block is-disabled" aria-disabled="true">Proceed to Checkout</span>
+                    <span class="btn btn-primary btn-lg btn-block is-disabled" aria-disabled="true">{{ __('Proceed to Checkout') }}</span>
                 @endif
                 @if ($contents->hasIssues())
-                    <p class="stock-note stock-out">Please fix or remove the items marked above to continue.</p>
+                    <p class="stock-note stock-out">{{ __('Please fix or remove the items marked above to continue.') }}</p>
                 @endif
                 <p class="summary-note mb-0">
                     <x-icon name="lock" class="icon-sm" />
-                    Secure checkout · Cash on Delivery available
+                    {{ __('Secure checkout · Cash on Delivery available') }}
                 </p>
             </aside>
         </div>
     </div>
 
     @push('overlays')
-        <x-confirm-modal id="modal-confirm-clear" title="Clear your cart?" confirm-label="Yes, Clear Cart" method="DELETE" :action="route('cart.clear')">
-            This will remove all {{ trans_choice(':count item|:count items', $contents->lineCount()) }} from your cart. You can't undo this action.
+        <x-confirm-modal id="modal-confirm-clear" :title="__('Clear your cart?')" confirm-label="Yes, Clear Cart" method="DELETE" :action="route('cart.clear')">
+            {{ __('This will remove all :items from your cart. You can\'t undo this action.', ['items' => trans_choice(':count item|:count items', $contents->lineCount())]) }}
         </x-confirm-modal>
     @endpush
 </x-layouts.app>

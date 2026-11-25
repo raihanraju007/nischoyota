@@ -18,24 +18,24 @@
 ])
 
 @php
-    $format = fn (int $amount): string => $paisa ? \App\Support\Money::format($amount) : '৳ '.number_format($amount);
+    $format = fn (int $amount): string => $paisa ? \App\Support\Money::format($amount) : '৳ '.\App\Support\Numerals::localize(number_format($amount));
 @endphp
 
-<div class="summary-line"><span>Subtotal</span><strong>{{ $format($subtotal) }}</strong></div>
+<div class="summary-line"><span>{{ __('Subtotal') }}</span><strong>{{ $format($subtotal) }}</strong></div>
 @if ($discount)
-    <div class="summary-line"><span>{{ $discountLabel }}</span><span class="discount-val">− {{ $format($discount) }}</span></div>
+    <div class="summary-line"><span>{{ __($discountLabel) }}</span><span class="discount-val">− {{ $format($discount) }}</span></div>
 @endif
 <div class="summary-line">
-    <span data-summary-delivery-label>{{ $deliveryLabel }}</span>
+    <span data-summary-delivery-label>{{ __($deliveryLabel) }}</span>
     @if ($deliveryAtCheckout)
-        <span data-summary-delivery>{{ $deliveryPendingText }}</span>
+        <span data-summary-delivery>{{ __($deliveryPendingText) }}</span>
     @elseif ($isFreeDelivery)
-        <span class="free" data-summary-delivery>FREE</span>
+        <span class="free" data-summary-delivery>{{ __('FREE') }}</span>
     @else
         <strong data-summary-delivery>{{ $format($delivery) }}</strong>
     @endif
 </div>
 <div class="summary-total">
-    <span class="label">Total</span>
+    <span class="label">{{ __('Total') }}</span>
     <span class="amount" data-summary-total>{{ $format($total) }}</span>
 </div>

@@ -34,5 +34,8 @@ final readonly class ProductData
         public ?int $actingUserId,
         public SellUnit $sellUnit = SellUnit::Piece,
         public ?float $unitQuantity = null,
+        public ?string $nameBn = null,
+        public ?string $shortDescriptionBn = null,
+        public ?string $descriptionBn = null,
     ) {}
 }

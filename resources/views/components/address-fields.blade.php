@@ -18,10 +18,10 @@
 <div class="form-row" data-location-fields
      data-districts-url="{{ route('locations.districts', '__ID__') }}"
      data-upazilas-url="{{ route('locations.upazilas', '__ID__') }}">
-    <x-form.select name="division_id" :id="$idPrefix.'-division'" label="Division" placeholder="Choose division"
+    <x-form.select name="division_id" :id="$idPrefix.'-division'" :label="__('Division')" :placeholder="__('Choose division')"
                    :options="$divisionOptions" :selected="$divisionId" data-location-division required />
-    <x-form.select name="district_id" :id="$idPrefix.'-district'" label="District" placeholder="Choose district"
+    <x-form.select name="district_id" :id="$idPrefix.'-district'" :label="__('District')" :placeholder="__('Choose district')"
                    :options="$districtOptions" :selected="$districtId" data-location-district required />
 </div>
-<x-form.select name="upazila_id" :id="$idPrefix.'-upazila'" label="Upazila / Thana" placeholder="Choose upazila / thana"
+<x-form.select name="upazila_id" :id="$idPrefix.'-upazila'" :label="__('Upazila / Thana')" :placeholder="__('Choose upazila / thana')"
                :options="$upazilaOptions" :selected="$upazilaId" data-location-upazila required />

@@ -12,5 +12,8 @@ final readonly class PageData
         public ?string $metaTitle,
         public ?string $metaDescription,
         public bool $isPublished,
+        public ?string $titleBn = null,
+        public ?string $subtitleBn = null,
+        public ?string $bodyBn = null,
     ) {}
 }

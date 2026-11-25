@@ -15,6 +15,6 @@
         @endif
     </div>
     @if ($linkUrl)
-        <a class="section-link" href="{{ $linkUrl }}">{{ $linkLabel }}</a>
+        <a class="section-link" href="{{ $linkUrl }}">{{ __($linkLabel) }}</a>
     @endif
 </div>

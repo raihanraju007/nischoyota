@@ -40,6 +40,9 @@
                     </div>
                     <x-form.textarea name="short_description" label="Short Description" rows="2" placeholder="One or two lines shown near the price" :value="$product?->short_description" />
                     <x-form.textarea name="description" label="Full Description" rows="6" placeholder="Features, materials, what's in the box…" :value="$product?->description" />
+                    <x-form.input name="name_bn" label="Product Name (বাংলা)" placeholder="যেমন সুন্দরবনের মধু ৫০০ গ্রাম" :value="$product?->name_bn" optional hint="Shown instead of the name when the visitor uses Bangla." />
+                    <x-form.textarea name="short_description_bn" label="Short Description (বাংলা)" rows="2" :value="$product?->short_description_bn" />
+                    <x-form.textarea name="description_bn" label="Full Description (বাংলা)" rows="6" :value="$product?->description_bn" />
                     <p class="form-hint">Formatting: empty line = new paragraph, <code>- item</code> = bullet list, <code>**bold**</code>. HTML is removed.</p>
                 </section>
 

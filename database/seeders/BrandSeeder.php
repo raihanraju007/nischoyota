@@ -16,7 +16,18 @@ class BrandSeeder extends Seeder
     public function run(): void
     {
         foreach (self::BRANDS as $name) {
-            Brand::query()->create(['name' => $name, 'slug' => Str::slug($name), 'is_active' => true]);
+            if ($name === 'Nischoyota Fashion' && ! config('shop.clothing_enabled')) {
+                continue;
+            }
+
+            $slug = Str::slug($name);
+
+            Brand::query()->create([
+                'name' => $name,
+                'name_bn' => (require database_path('data/catalog_bn.php'))['brands'][$slug] ?? null,
+                'slug' => $slug,
+                'is_active' => true,
+            ]);
         }
     }
 }

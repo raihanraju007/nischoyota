@@ -37,7 +37,7 @@
                     <p>{{ $customer->email ?? $customer->phone }}</p>
                 </div>
             </div>
-            <nav class="account-menu" aria-label="Account navigation">
+            <nav class="account-menu" aria-label="{{ __('Account navigation') }}">
                 @foreach ($menu as $key => $item)
                     <a href="{{ $item['url'] }}" @class(['active' => $active === $key])>
                         <x-icon :name="$item['icon']" class="icon-sm" /> {{ $item['label'] }}
@@ -46,7 +46,7 @@
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="logout">
-                        <x-icon name="logout" class="icon-sm" /> Logout
+                        <x-icon name="logout" class="icon-sm" /> {{ __('Logout') }}
                     </button>
                 </form>
             </nav>

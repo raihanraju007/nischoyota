@@ -49,6 +49,7 @@
                 @endif
 
                 <x-form.input name="name" id="category-name" label="Name" placeholder="e.g. Electrical" :value="$editingCategory?->name" required />
+                <x-form.input name="name_bn" id="category-name-bn" label="Name (বাংলা)" placeholder="যেমন বৈদ্যুতিক" :value="$editingCategory?->name_bn" optional />
                 <x-form.input name="slug" id="category-slug" label="Slug" placeholder="electrical" :value="$editingCategory?->slug" hint="Used in the URL. Leave empty to generate from the name." />
                 <x-form.select name="parent_id" id="category-parent" label="Parent Category" placeholder="None (top level)" :options="$parentOptions" :selected="$editingCategory?->parent_id" />
 

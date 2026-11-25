@@ -163,7 +163,7 @@ final class CheckoutController extends Controller
         $totals = $this->checkoutService->totalsFor($currentCart->contents(), $upazilaId, $user, $user?->phone);
 
         return response()->json([
-            'deliveryLabel' => $totals->delivery === null ? __('Delivery') : __('Delivery (:zone)', ['zone' => $totals->delivery->zoneName]),
+            'deliveryLabel' => $totals->delivery === null ? __('Delivery') : __('Delivery (:zone)', ['zone' => __($totals->delivery->zoneName)]),
             'delivery' => match (true) {
                 $upazilaId === null => __('Choose your area'),
                 $totals->delivery === null => __("We don't deliver here yet"),

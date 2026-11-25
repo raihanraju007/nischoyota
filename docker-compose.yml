@@ -6,14 +6,12 @@ services:
     working_dir: /var/www/html
     volumes:
       - ./:/var/www/html
+      - vendor:/var/www/html/vendor
     ports:
       - "8000:8000"
+    # Database settings come from .env (DB_HOST=mysql), so phpunit.xml can switch tests to nischoyota_testing.
     environment:
-      DB_HOST: mysql
-      DB_PORT: 3306
-      DB_DATABASE: nischoyota
-      DB_USERNAME: nischoyota
-      DB_PASSWORD: secret
+      COMPOSER_PROCESS_TIMEOUT: 0
     command: php artisan serve --host=0.0.0.0 --port=8000
     depends_on:
       mysql:
@@ -48,3 +46,4 @@ services:
 
 volumes:
   mysql-data:
+  vendor:

@@ -14,7 +14,7 @@
 
 <nav class="pagination" aria-label="{{ $label }}">
     @if ($current > 1)
-        <a href="#" aria-label="Previous page">‹ Prev</a>
+        <a href="#" aria-label="{{ __('Previous page') }}">{{ __('‹ Prev') }}</a>
     @endif
 
     @foreach ($pages as $page)
@@ -31,6 +31,6 @@
     @endif
 
     @if ($current < $last)
-        <a href="#" aria-label="Next page">Next ›</a>
+        <a href="#" aria-label="{{ __('Next page') }}">{{ __('Next ›') }}</a>
     @endif
 </nav>

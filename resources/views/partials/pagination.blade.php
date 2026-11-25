@@ -3,9 +3,9 @@
     Use: {{ $paginator->links() }}
 --}}
 @if ($paginator->hasPages())
-    <nav class="pagination" aria-label="Pagination">
+    <nav class="pagination" aria-label="{{ __('Pagination') }}">
         @unless ($paginator->onFirstPage())
-            <a href="{{ $paginator->previousPageUrl() }}" rel="prev" aria-label="Previous page">‹ Prev</a>
+            <a href="{{ $paginator->previousPageUrl() }}" rel="prev" aria-label="Previous page">{{ __('‹ Prev') }}</a>
         @endunless
 
         @foreach ($elements as $element)
@@ -23,7 +23,7 @@
         @endforeach
 
         @if ($paginator->hasMorePages())
-            <a href="{{ $paginator->nextPageUrl() }}" rel="next" aria-label="Next page">Next ›</a>
+            <a href="{{ $paginator->nextPageUrl() }}" rel="next" aria-label="Next page">{{ __('Next ›') }}</a>
         @endif
     </nav>
 @endif

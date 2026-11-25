@@ -105,7 +105,7 @@ it('suggests best sellers when nothing matches', function () {
     searchableProduct('Breeze Fan', $this->fans, ['sold_count' => 80]);
 
     $this->get(route('search', ['q' => 'xyzabc']))
-        ->assertSee('Search results for &ldquo;xyzabc&rdquo;', escape: false)
+        ->assertSee('Search results for “xyzabc”', escape: false)
         ->assertSee('No products found')
         ->assertSee('You may like these')
         ->assertSee('Breeze Fan');

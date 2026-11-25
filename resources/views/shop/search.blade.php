@@ -5,7 +5,7 @@
 <x-layouts.app :title="'Search results for “'.$query.'”'" :breadcrumbs="['Search' => null]" bottom-nav="search">
     <div class="container">
         <div class="page-title-bar">
-            <h1>Search results for &ldquo;{{ $query }}&rdquo;</h1>
+            <h1>{{ __('Search results for “:query”', ['query' => $query]) }}</h1>
             <p class="result-count">{{ trans_choice(':count product found|:count products found', $products->total()) }}</p>
         </div>
 

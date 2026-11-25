@@ -13,7 +13,7 @@
 
     <div class="prose">
         @if ($updated)
-            <p class="updated">Last updated: {{ $updated }}</p>
+            <p class="updated">{{ __('Last updated:') }} {{ $updated }}</p>
         @endif
         {{ $slot }}
     </div>

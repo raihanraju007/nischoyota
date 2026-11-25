@@ -143,20 +143,27 @@ class ProductSeeder extends Seeder
         $categories = Category::query()->pluck('id', 'slug');
         $brands = Brand::query()->pluck('id', 'name');
 
-        foreach (self::PRODUCTS as $index => $row) {
+        $products = $this->productsToSeed();
+        $banglaContent = require database_path('data/catalog_bn.php');
+
+        foreach ($products as $index => $row) {
             [$name, $categorySlug, $brand, $price, $oldPrice, $stock, $photos, $isFeatured, $shortDescription] = $row;
             $categoryId = $categories[$categorySlug];
             $slug = $this->slugFor($name);
             $pricePaisa = $price * 100;
             $oldPricePaisa = $oldPrice === null ? null : $oldPrice * 100;
+            [$banglaName, $banglaShortDescription] = $banglaContent['products'][$slug] ?? [null, null];
 
             $product = Product::query()->create([
                 'category_id' => $categoryId,
                 'brand_id' => $brand === null ? null : $brands[$brand],
-                'name' => $name,
+                'name' => $this->englishNameOf($name),
+                'name_bn' => $banglaName,
                 'slug' => $slug,
                 'short_description' => $shortDescription,
+                'short_description_bn' => $banglaShortDescription,
                 'description' => "{$shortDescription}\n\nNischoyota (নিশ্চয়তা) — প্রাকৃতিক ও খাঁটি পণ্যের নিশ্চয়তা. Every order is checked before dispatch, with Cash on Delivery across Bangladesh.",
+                'description_bn' => $banglaShortDescription === null ? null : $banglaShortDescription."\n\n".$banglaContent['product_description_suffix'],
                 'specifications' => $this->specificationRows($row[9] ?? []),
                 'sell_unit' => self::SELL_UNITS[$slug][0] ?? SellUnit::Piece,
                 'unit_quantity' => self::SELL_UNITS[$slug][1] ?? null,
@@ -164,7 +171,7 @@ class ProductSeeder extends Seeder
                 'is_featured' => $isFeatured,
                 'min_price' => $pricePaisa,
                 'max_discount_percent' => ProductVariant::discountPercentFor($pricePaisa, $oldPricePaisa),
-                'published_at' => now()->subDays(count(self::PRODUCTS) - $index),
+                'published_at' => now()->subDays(count($products) - $index),
             ]);
 
             $variant = $product->variants()->create([
@@ -185,8 +192,30 @@ class ProductSeeder extends Seeder
     }
 
     /**
+     * The catalog without the clothing lines while clothing is paused (config shop.clothing_enabled).
+     *
+     * @return list<array<int, mixed>>
+     */
+    private function productsToSeed(): array
+    {
+        if (config('shop.clothing_enabled')) {
+            return array_values(self::PRODUCTS);
+        }
+
+        return array_values(array_filter(self::PRODUCTS, fn (array $row): bool => $row[2] !== 'Nischoyota Fashion'));
+    }
+
+    /**
      * "Mustard Flower Honey (সরিষা ফুলের মধু)" → "mustard-flower-honey": the Bangla name in brackets stays out of the URL.
      */
+    /**
+     * "Mustard Flower Honey (সরিষা ফুলের মধু)" → "Mustard Flower Honey": the Bangla name now has its own column.
+     */
+    private function englishNameOf(string $name): string
+    {
+        return trim((string) preg_replace('/\s*\(.*\)\s*/u', ' ', $name));
+    }
+
     private function slugFor(string $name): string
     {
         return Str::slug(trim((string) preg_replace('/\s*\(.*\)\s*/u', ' ', $name)));
@@ -195,7 +224,12 @@ class ProductSeeder extends Seeder
     private function addOptions(ProductVariantService $variantService, InventoryService $inventoryService): void
     {
         foreach (self::OPTIONS as $productSlug => $options) {
-            $product = Product::query()->where('slug', $productSlug)->firstOrFail();
+            $product = Product::query()->where('slug', $productSlug)->first();
+
+            if ($product === null) {
+                continue;
+            }
+
             $selection = [];
 
             foreach ($options as $attributeName => $values) {

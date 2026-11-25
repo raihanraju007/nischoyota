@@ -4,6 +4,7 @@ namespace App\Modules\Catalog\Models;
 
 use App\Modules\Catalog\Enums\ProductStatus;
 use App\Modules\Catalog\Enums\SellUnit;
+use App\Support\Concerns\TranslatesAttributes;
 use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * cached from the variants by ProductService.
  */
 #[Fillable([
-    'category_id', 'brand_id', 'name', 'slug', 'short_description', 'description', 'specifications',
+    'category_id', 'brand_id', 'name', 'name_bn', 'slug', 'short_description', 'short_description_bn', 'description', 'description_bn', 'specifications',
     'sell_unit', 'unit_quantity', 'status', 'is_featured', 'allow_preorder', 'min_price', 'max_discount_percent',
     'meta_title', 'meta_description', 'published_at',
 ])]
@@ -27,6 +28,13 @@ class Product extends Model
 {
     /** @use HasFactory<ProductFactory> */
     use HasFactory;
+
+    use TranslatesAttributes;
+
+    /**
+     * @var list<string>
+     */
+    protected array $translatedAttributes = ['name', 'short_description', 'description'];
 
     /**
      * @var array<string, mixed>

@@ -7,17 +7,17 @@
 <div class="order-table-wrap">
     <table class="order-table">
         <thead>
-            <tr><th>Order #</th><th>Date</th><th>Items</th><th>Total</th><th>Status</th><th></th></tr>
+            <tr><th>{{ __('Order #') }}</th><th>{{ __('Date') }}</th><th>{{ __('Items') }}</th><th>{{ __('Total') }}</th><th>{{ __('Status') }}</th><th></th></tr>
         </thead>
         <tbody>
             @foreach ($orders as $order)
                 <tr>
                     <td class="order-id">#{{ $order->order_number }}</td>
-                    <td>{{ $order->placed_at->timezone(config('shop.timezone'))->format('d M Y') }}</td>
+                    <td>{{ \App\Support\Numerals::date($order->placed_at->timezone(config('shop.timezone'))) }}</td>
                     <td>{{ trans_choice('{1} :count item|[2,*] :count items', (int) $order->item_count) }}</td>
                     <td><x-money :amount="$order->total" /></td>
                     <td><x-order.status :status="$order->status" /></td>
-                    <td><a class="btn btn-sm btn-outline" href="{{ route('account.orders.show', $order->order_number) }}">View</a></td>
+                    <td><a class="btn btn-sm btn-outline" href="{{ route('account.orders.show', $order->order_number) }}">{{ __('View') }}</a></td>
                 </tr>
             @endforeach
         </tbody>

@@ -26,10 +26,10 @@
         <div class="footer-main">
             <div class="footer-brand">
                 <x-logo />
-                <p>প্রাকৃতিক ও খাঁটি পণ্যের নিশ্চয়তা — pure honey, ghee, natural foods and clothing, delivered anywhere in Bangladesh.</p>
+                <p>{{ __('প্রাকৃতিক ও খাঁটি পণ্যের নিশ্চয়তা — pure honey, ghee, natural foods and plants, delivered anywhere in Bangladesh.') }}</p>
                 <span class="footer-note">
                     <x-icon name="truck" class="icon-sm" />
-                    Cash on Delivery Available
+                    {{ __('Cash on Delivery Available') }}
                 </span>
             </div>
 
@@ -45,7 +45,7 @@
             @endforeach
 
             <div class="footer-col">
-                <h4>Contact</h4>
+                <h4>{{ __('Contact') }}</h4>
                 <ul class="footer-contact">
                     <li>
                         <x-icon name="phone" class="icon-sm" />
@@ -69,12 +69,12 @@
         </div>
 
         <div class="footer-bottom">
-            <p class="mb-0">© {{ date('Y') }} {{ $storeSettings->storeName }}. All rights reserved.</p>
-            <nav class="footer-links" aria-label="Legal links">
-                <a href="{{ route('privacy') }}">Privacy</a>
-                <a href="{{ route('terms') }}">Terms</a>
-                <a href="{{ route('shipping') }}">Shipping</a>
-                <a href="{{ route('returns') }}">Returns</a>
+            <p class="mb-0">© {{ \App\Support\Numerals::localize(date('Y')) }} {{ $storeSettings->storeName }}. {{ __('All rights reserved.') }}</p>
+            <nav class="footer-links" aria-label="{{ __('Legal links') }}">
+                <a href="{{ route('privacy') }}">{{ __('Privacy') }}</a>
+                <a href="{{ route('terms') }}">{{ __('Terms') }}</a>
+                <a href="{{ route('shipping') }}">{{ __('Shipping') }}</a>
+                <a href="{{ route('returns') }}">{{ __('Returns') }}</a>
             </nav>
         </div>
     </div>

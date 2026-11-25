@@ -21,11 +21,11 @@
             <input type="hidden" name="{{ is_array($value) ? $key.'[]' : $key }}" value="{{ $item }}">
         @endforeach
     @endforeach
-    <label @class(['visually-hidden' => $mobile]) for="{{ $id }}">Sort by:</label>
+    <label @class(['visually-hidden' => $mobile]) for="{{ $id }}">{{ __('Sort by:') }}</label>
     <select class="select" id="{{ $id }}" name="sort">
         @foreach ($options as $option)
             <option value="{{ $option->value }}" @selected($current === $option)>{{ $mobile && $loop->first ? 'Sort: '.$option->label() : $option->label() }}</option>
         @endforeach
     </select>
-    <noscript><button class="btn btn-sm btn-outline" type="submit">Sort</button></noscript>
+    <noscript><button class="btn btn-sm btn-outline" type="submit">{{ __('Sort') }}</button></noscript>
 </form>

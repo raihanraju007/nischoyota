@@ -38,6 +38,10 @@ class CategorySeeder extends Seeder
         $departmentOrder = 0;
 
         foreach (self::TREE as $departmentName => $department) {
+            if ($departmentName === 'Clothing' && ! config('shop.clothing_enabled')) {
+                continue;
+            }
+
             $parent = $this->createCategory($departmentName, $department['icon'], $departmentOrder++);
 
             $childOrder = 0;
@@ -55,6 +59,7 @@ class CategorySeeder extends Seeder
         return Category::query()->create([
             'parent_id' => $parent?->id,
             'name' => $name,
+            'name_bn' => (require database_path('data/catalog_bn.php'))['categories'][$slug] ?? null,
             'slug' => $slug,
             'image' => $this->copyIcon($icon, $slug),
             'sort_order' => $sortOrder,

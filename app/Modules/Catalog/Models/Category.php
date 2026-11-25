@@ -2,6 +2,7 @@
 
 namespace App\Modules\Catalog\Models;
 
+use App\Support\Concerns\TranslatesAttributes;
 use App\Support\PublicImageStorage;
 use Database\Factories\CategoryFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -16,12 +17,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * Two levels: a department (parent_id null) or a subcategory of a department.
  */
-#[Fillable(['parent_id', 'name', 'slug', 'image', 'sort_order', 'is_active', 'meta_title', 'meta_description'])]
+#[Fillable(['parent_id', 'name', 'name_bn', 'slug', 'image', 'sort_order', 'is_active', 'meta_title', 'meta_description'])]
 #[UseFactory(CategoryFactory::class)]
 class Category extends Model
 {
     /** @use HasFactory<CategoryFactory> */
     use HasFactory;
+
+    use TranslatesAttributes;
+
+    /**
+     * @var list<string>
+     */
+    protected array $translatedAttributes = ['name'];
 
     /**
      * @return array<string, string>

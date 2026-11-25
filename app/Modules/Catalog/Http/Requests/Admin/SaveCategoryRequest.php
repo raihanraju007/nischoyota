@@ -29,6 +29,7 @@ final class SaveCategoryRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:100'],
+            'name_bn' => ['nullable', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:120', 'regex:'.self::SLUG_PATTERN, Rule::unique('categories', 'slug')->ignore($this->category())],
             'parent_id' => ['nullable', 'integer', Rule::exists('categories', 'id')->whereNull('parent_id')],
             'image' => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp', 'max:1024'],
@@ -55,6 +56,7 @@ final class SaveCategoryRequest extends FormRequest
     {
         return new CategoryData(
             name: $this->string('name')->trim()->toString(),
+            nameBn: $this->filled('name_bn') ? $this->string('name_bn')->trim()->toString() : null,
             slug: $this->filled('slug') ? $this->string('slug')->toString() : null,
             parentId: $this->filled('parent_id') ? $this->integer('parent_id') : null,
             image: $this->file('image'),

@@ -43,6 +43,7 @@ final class BrandService
     {
         return $this->brandRepository->create([
             'name' => $data->name,
+            'name_bn' => $data->nameBn,
             'slug' => $data->slug ?? $this->uniqueSlugFor($data->name),
             'logo' => $data->logo === null ? null : $this->imageStorage->store($data->logo, self::LOGO_DIRECTORY),
             'is_active' => $data->isActive,
@@ -56,6 +57,7 @@ final class BrandService
 
         $brand = $this->brandRepository->update($brand, [
             'name' => $data->name,
+            'name_bn' => $data->nameBn,
             'slug' => $data->slug ?? ($brand->name === $data->name ? $brand->slug : $this->uniqueSlugFor($data->name)),
             'logo' => $newLogo,
             'is_active' => $data->isActive,

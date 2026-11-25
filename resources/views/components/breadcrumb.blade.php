@@ -5,18 +5,18 @@
 @props(['items' => []])
 
 @php
-    $items = ['Home' => route('home')] + $items;
+    $items = [__('Home') => route('home')] + $items;
 @endphp
 
 <div class="breadcrumb-bar">
     <div class="container">
-        <nav aria-label="Breadcrumb">
+        <nav aria-label="{{ __('Breadcrumb') }}">
             <ol class="breadcrumb">
                 @foreach ($items as $label => $url)
                     @if ($loop->last)
-                        <li><span aria-current="page">{{ $label }}</span></li>
+                        <li><span aria-current="page">{{ __($label) }}</span></li>
                     @else
-                        <li><a href="{{ $url }}">{{ $label }}</a></li>
+                        <li><a href="{{ $url }}">{{ __($label) }}</a></li>
                     @endif
                 @endforeach
             </ol>

@@ -84,7 +84,7 @@ it('shows deals by biggest discount with the countdown', function () {
     expect(cardNames(homeSections()->deals))->toBe(['Big Deal', 'Small Deal']);
 
     $this->get(route('home'))
-        ->assertSee("Today's Deals", escape: false)
+        ->assertSee('Today&#039;s Deals', escape: false)
         ->assertSee('Up to 50% OFF')
         ->assertSee('data-countdown-hours', escape: false);
 });
@@ -132,6 +132,7 @@ it('links promo banners to listed departments, otherwise to the shop', function 
 
     expect(homeSections()->promoLinks)->toBe([
         'honey' => route('shop'),
+        'plants' => route('shop'),
         'clothing' => route('category', 'clothing'),
     ]);
 

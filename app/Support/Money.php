@@ -19,7 +19,7 @@ final class Money
      */
     public static function format(int $paisa): string
     {
-        return self::CURRENCY_SYMBOL.' '.self::formatNumber($paisa, thousandsSeparator: ',');
+        return self::CURRENCY_SYMBOL.' '.Numerals::localize(self::formatNumber($paisa, thousandsSeparator: ','));
     }
 
     /**

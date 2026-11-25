@@ -10,22 +10,22 @@
     <section class="hero" aria-labelledby="hero-title">
         <div class="container hero-inner">
             <div class="hero-copy">
-                <span class="hero-kicker">100% Natural · Pure · Trusted</span>
+                <span class="hero-kicker">{{ __('100% Natural · Pure · Trusted') }}</span>
                 <p class="hero-tagline">প্রাকৃতিক ও খাঁটি পণ্যের নিশ্চয়তা</p>
-                <h1 id="hero-title">Pure Honey &amp; Ghee, <span class="hero-accent">Straight from Nature</span></h1>
-                <p class="lead">Raw honey from the hives, traditional pure ghee and handpicked clothing — no chemicals, no shortcuts. শুদ্ধতার সাথে সুস্থতার পথে…</p>
+                <h1 id="hero-title">{{ __('Pure Honey & Ghee,') }} <span class="hero-accent">{{ __('Straight from Nature') }}</span></h1>
+                <p class="lead">{{ __('Raw honey from the hives, traditional pure ghee and fresh indoor plants — no chemicals, no shortcuts. শুদ্ধতার সাথে সুস্থতার পথে…') }}</p>
                 <div class="hero-actions">
-                    <a class="btn btn-primary btn-lg" href="{{ route('shop') }}">Shop Now</a>
-                    <a class="btn btn-outline btn-lg" href="{{ route('deals') }}">Today's Offers</a>
+                    <a class="btn btn-primary btn-lg" href="{{ route('shop') }}">{{ __('Shop Now') }}</a>
+                    <a class="btn btn-outline btn-lg" href="{{ route('deals') }}">{{ __('Today\'s Offers') }}</a>
                 </div>
                 <ul class="hero-points">
                     @foreach (['100% Natural', 'No Chemicals', 'Cash on Delivery'] as $point)
-                        <li><x-icon name="check" class="icon-sm" /> {{ $point }}</li>
+                        <li><x-icon name="check" class="icon-sm" /> {{ __($point) }}</li>
                     @endforeach
                 </ul>
             </div>
             <div class="hero-media">
-                <img src="{{ asset('images/hero.jpg') }}" alt="Nischoyota pure honey and ghee" width="1100" height="1100">
+                <img src="{{ asset('images/hero.jpg') }}" alt="{{ __('Nischoyota pure honey and ghee') }}" width="1100" height="1100">
             </div>
         </div>
     </section>
@@ -34,7 +34,7 @@
     @if ($home->departments !== [])
         <section class="section" aria-labelledby="categories-title">
             <div class="container">
-                <x-section-heading id="categories-title" title="Shop by Category" subtitle="Browse our most popular departments" :link-url="route('shop')" link-label="View All Products →" />
+                <x-section-heading id="categories-title" :title="__('Shop by Category')" :subtitle="__('Browse our most popular departments')" :link-url="route('shop')" link-label="View All Products →" />
                 <div class="grid-categories">
                     @foreach ($home->departments as $department)
                         <x-category-card :name="$department['name']" :image-url="$department['imageUrl']" :caption="trans_choice(':count Product|:count Products', $department['productCount'])" :url="route('category', $department['slug'])" />
@@ -51,7 +51,7 @@
     @if ($home->featured !== [])
         <section class="section section-alt" aria-labelledby="featured-title">
             <div class="container">
-                <x-section-heading id="featured-title" title="Featured Products" subtitle="Our purest picks — loved by families across Bangladesh" :link-url="route('shop')" />
+                <x-section-heading id="featured-title" :title="__('Featured Products')" :subtitle="__('Our purest picks — loved by families across Bangladesh')" :link-url="route('shop')" />
                 <div class="grid-products">
                     @foreach ($home->featured as $card)
                         <x-product-card :card="$card" />
@@ -66,10 +66,10 @@
         <section class="section deals-section" aria-labelledby="deals-title">
             <div class="container">
                 <div class="deals-head">
-                    <h2 id="deals-title">Today's Deals</h2>
-                    <span class="deals-tag">Up to {{ $home->highestDiscount }}% OFF</span>
+                    <h2 id="deals-title">{{ __('Today\'s Deals') }}</h2>
+                    <span class="deals-tag">{{ __('Up to :percent% OFF', ['percent' => \App\Support\Numerals::localize($home->highestDiscount)]) }}</span>
                     <x-countdown :hours="$dealHoursLeft" />
-                    <a class="section-link ml-auto" href="{{ route('deals') }}">View All Deals →</a>
+                    <a class="section-link ml-auto" href="{{ route('deals') }}">{{ __('View All Deals →') }}</a>
                 </div>
                 <div class="grid-products">
                     @foreach ($home->deals as $card)
@@ -86,7 +86,7 @@
     @if ($home->newArrivals !== [])
         <section class="section section-alt" aria-labelledby="new-title">
             <div class="container">
-                <x-section-heading id="new-title" title="New Arrivals" subtitle="Fresh products just added to the store" :link-url="route('shop', ['sort' => 'newest'])" />
+                <x-section-heading id="new-title" :title="__('New Arrivals')" :subtitle="__('Fresh products just added to the store')" :link-url="route('shop', ['sort' => 'newest'])" />
                 <div class="grid-products">
                     @foreach ($home->newArrivals as $card)
                         <x-product-card :card="$card" />
@@ -100,7 +100,7 @@
     @if ($home->bestSellers !== [])
         <section class="section" aria-labelledby="best-title">
             <div class="container">
-                <x-section-heading id="best-title" title="Best Sellers" subtitle="Most loved products this month" :link-url="route('shop', ['sort' => 'popular'])" />
+                <x-section-heading id="best-title" :title="__('Best Sellers')" :subtitle="__('Most loved products this month')" :link-url="route('shop', ['sort' => 'popular'])" />
                 <div class="grid-products">
                     @foreach ($home->bestSellers as $card)
                         <x-product-card :card="$card" />
@@ -116,7 +116,7 @@
     @if ($customerReviews->isNotEmpty())
         <section class="section" aria-labelledby="reviews-title">
             <div class="container">
-                <x-section-heading id="reviews-title" title="What Our Customers Say" subtitle="Real reviews from shoppers across Bangladesh" />
+                <x-section-heading id="reviews-title" :title="__('What Our Customers Say')" :subtitle="__('Real reviews from shoppers across Bangladesh')" />
                 <div class="grid-reviews">
                     @foreach ($customerReviews as $review)
                         <x-review-card :author="$review->user->name" :meta="$review->product->name" :rating="$review->rating">

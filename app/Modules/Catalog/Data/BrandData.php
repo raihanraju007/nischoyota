@@ -12,5 +12,6 @@ final readonly class BrandData
         public ?UploadedFile $logo,
         public bool $shouldRemoveLogo,
         public bool $isActive,
+        public ?string $nameBn = null,
     ) {}
 }

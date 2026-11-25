@@ -27,7 +27,7 @@ final class HomePageService
     /**
      * Departments the static promo banners link to.
      */
-    private const PROMO_DEPARTMENT_SLUGS = ['honey', 'clothing'];
+    private const PROMO_DEPARTMENT_SLUGS = ['honey', 'plants', 'clothing'];
 
     public function __construct(
         private readonly ProductListingRepository $listingRepository,

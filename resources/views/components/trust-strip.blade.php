@@ -8,7 +8,7 @@
     ];
 @endphp
 
-<section class="section trust-strip" aria-label="Why shop with us">
+<section class="section trust-strip" aria-label="{{ __('Why shop with us') }}">
     <div class="container trust-grid">
         @foreach ($trustPoints as $point)
             <div class="trust-item">

@@ -25,26 +25,26 @@
                 <form method="POST" action="{{ route('cart.items.destroy', $line->itemId) }}">
                     @csrf
                     @method('DELETE')
-                    <button class="remove-link" type="submit" aria-label="Remove {{ $line->productName }} from cart">Remove</button>
+                    <button class="remove-link" type="submit" aria-label="Remove {{ $line->productName }} from cart">{{ __('Remove') }}</button>
                 </form>
             </div>
         </div>
     @empty
-        <p class="text-muted">Your cart is empty.</p>
+        <p class="text-muted">{{ __('Your cart is empty.') }}</p>
     @endforelse
 
     @unless ($cartContents->isEmpty())
         <x-slot:footer>
             <div class="drawer-subtotal">
-                <span>Subtotal</span>
+                <span>{{ __('Subtotal') }}</span>
                 <span><x-money :amount="$cartContents->subtotal()" /></span>
             </div>
             <div class="drawer-actions">
-                <a class="btn btn-outline" href="{{ route('cart') }}">View Cart</a>
+                <a class="btn btn-outline" href="{{ route('cart') }}">{{ __('View Cart') }}</a>
                 @if ($cartContents->canCheckout())
-                    <a class="btn btn-primary" href="{{ route('checkout') }}">Checkout</a>
+                    <a class="btn btn-primary" href="{{ route('checkout') }}">{{ __('Checkout') }}</a>
                 @else
-                    <span class="btn btn-primary is-disabled" aria-disabled="true">Checkout</span>
+                    <span class="btn btn-primary is-disabled" aria-disabled="true">{{ __('Checkout') }}</span>
                 @endif
             </div>
         </x-slot:footer>

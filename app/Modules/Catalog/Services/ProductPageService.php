@@ -115,7 +115,7 @@ final class ProductPageService
             'minDays' => (int) $zones->min('min_days'),
             'maxDays' => (int) $zones->max('max_days'),
             'zones' => $zones->map(fn (DeliveryZone $zone): array => [
-                'name' => $zone->name,
+                'name' => __($zone->name),
                 'charge' => Money::format($zone->charge),
                 'days' => $zone->deliveryTimeLabel(),
             ])->all(),

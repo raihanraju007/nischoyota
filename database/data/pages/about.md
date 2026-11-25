@@ -1,6 +1,6 @@
 **Nischoyota (নিশ্চয়তা)** means *assurance*, and that's what we promise: **প্রাকৃতিক ও খাঁটি পণ্যের নিশ্চয়তা**, the assurance of natural, pure products.
 
-We started in Uttara, Dhaka, with one simple belief: the food that goes into your body should be as honest as the food our grandparents ate. Today we bring raw honey straight from the hives, traditional pure ghee and other safe foods to families across Bangladesh, along with a small range of comfortable everyday clothing.
+We started in Uttara, Dhaka, with one simple belief: the food that goes into your body should be as honest as the food our grandparents ate. Today we bring raw honey straight from the hives, traditional pure ghee and other safe foods to families across Bangladesh, along with a small range of fresh indoor plants.
 
 ## Our Promise
 
@@ -14,7 +14,7 @@ We started in Uttara, Dhaka, with one simple belief: the food that goes into you
 - **Honey (মধু):** mustard flower, litchi, black seed (kalojira) and Sundarban wild honey
 - **Ghee (ঘি):** pure cow ghee made in small batches
 - **Natural foods:** cold-pressed mustard oil, dates and more
-- **Clothing:** comfortable cotton Panjabi, T-shirts and everyday wear
+- **Plants:** easy-care indoor plants, delivered with their pots
 
 ## Why Shop With Us
 

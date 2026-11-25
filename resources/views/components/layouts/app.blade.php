@@ -26,7 +26,7 @@
 ])
 
 @php
-    $description ??= 'Nischoyota (নিশ্চয়তা) — pure raw honey, traditional ghee, natural foods and clothing. Cash on Delivery across Bangladesh.';
+    $description ??= 'Nischoyota (নিশ্চয়তা) — pure raw honey, traditional ghee, natural foods and plants. Cash on Delivery across Bangladesh.';
 @endphp
 
 <!DOCTYPE html>

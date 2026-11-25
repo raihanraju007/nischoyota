@@ -26,6 +26,6 @@
     <{{ $heading }}>{{ $title }}</{{ $heading }}>
     <p>{{ $slot }}</p>
     @if ($actionUrl)
-        <a class="btn {{ $actionClass }}" href="{{ $actionUrl }}">{{ $actionLabel }}</a>
+        <a class="btn {{ $actionClass }}" href="{{ $actionUrl }}">{{ __($actionLabel) }}</a>
     @endif
 </div>

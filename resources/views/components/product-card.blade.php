@@ -82,7 +82,7 @@
         @endif
         <a href="{{ $url }}"><img src="{{ $imageUrl }}" alt="{{ $alt ?? $name }}" loading="lazy" width="600" height="600"></a>
         @unless ($card)
-            <button class="quick-view-btn" data-modal="modal-quick-view">Quick View</button>
+            <button class="quick-view-btn" data-modal="modal-quick-view">{{ __('Quick View') }}</button>
         @endunless
     </div>
 
@@ -101,16 +101,16 @@
                     <span class="price-off">-{{ $discount }}%</span>
                 @endif
             @else
-                <span class="price">৳ {{ number_format($price) }}</span>
+                <span class="price">৳ {{ \App\Support\Numerals::localize(number_format($price)) }}</span>
                 @if ($oldPrice)
-                    <span class="price-old">৳ {{ number_format($oldPrice) }}</span>
+                    <span class="price-old">৳ {{ \App\Support\Numerals::localize(number_format($oldPrice)) }}</span>
                     <span class="price-off">-{{ $discount }}%</span>
                 @endif
             @endif
         </div>
 
         @unless ($inStock)
-            <p class="stock-note stock-out">Out of Stock</p>
+            <p class="stock-note stock-out">{{ __('Out of Stock') }}</p>
         @endunless
 
         <div class="card-actions">
@@ -119,7 +119,7 @@
                     @csrf
                     <button class="add-to-cart-btn" type="submit">
                         <x-icon name="cart" class="icon-sm" />
-                        Move to Cart
+                        {{ __('Move to Cart') }}
                     </button>
                 </form>
             @elseif ($card?->quickAddVariantId)
@@ -128,11 +128,11 @@
                     <input type="hidden" name="variant_id" value="{{ $card->quickAddVariantId }}">
                     <button class="add-to-cart-btn" type="submit" data-add-to-cart>
                         <x-icon name="cart" class="icon-sm" />
-                        Add to Cart
+                        {{ __('Add to Cart') }}
                     </button>
                 </form>
             @elseif ($card && $inStock)
-                <a class="add-to-cart-btn" href="{{ $url }}">Choose Options</a>
+                <a class="add-to-cart-btn" href="{{ $url }}">{{ __('Choose Options') }}</a>
             @else
                 <button class="add-to-cart-btn" data-add-to-cart @disabled(! $inStock)>
                     <x-icon name="cart" class="icon-sm" />
