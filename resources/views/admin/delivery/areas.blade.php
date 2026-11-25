@@ -3,7 +3,7 @@
     $divisions    Division collection with districts (deliveryZone, upazilas_count)
     $zoneOptions  id => zone name
 --}}
-<x-layouts.admin title="Areas & Zones" active="delivery" subtitle="Choose the delivery zone of each district. Open a district to set a different zone for single thanas."
+<x-layouts.admin :title="__('Areas & Zones')" active="delivery" :subtitle="__('Choose the delivery zone of each district. Open a district to set a different zone for single thanas.')"
                  :back-url="route('admin.delivery-zones.index')" back-label="Delivery zones">
     <form method="POST" action="{{ route('admin.delivery-areas.update') }}">
         @csrf
@@ -40,7 +40,7 @@
             @endforeach
         </div>
         <div class="form-actions sticky-actions">
-            <button class="btn btn-primary" type="submit">Save district zones</button>
+            <button class="btn btn-primary" type="submit">{{ __('Save district zones') }}</button>
         </div>
     </form>
 </x-layouts.admin>

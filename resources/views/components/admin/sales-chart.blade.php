@@ -39,8 +39,8 @@
 </div>
 
 <table class="visually-hidden">
-    <caption>Sales per day</caption>
-    <thead><tr><th>Date</th><th>Sales</th><th>Orders</th></tr></thead>
+    <caption>{{ __('Sales per day') }}</caption>
+    <thead><tr><th>{{ __('Date') }}</th><th>{{ __('Sales') }}</th><th>{{ __('Orders') }}</th></tr></thead>
     <tbody>
         @foreach ($days as $day)
             <tr><td>{{ $day['date'] }}</td><td><x-money :amount="$day['sales']" /></td><td>{{ $day['orders'] }}</td></tr>

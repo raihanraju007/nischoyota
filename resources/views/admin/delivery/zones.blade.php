@@ -10,9 +10,9 @@
     $isEditing = $editingZone !== null;
 @endphp
 
-<x-layouts.admin title="Delivery Zones" active="delivery" subtitle="Delivery charge and time for each area of Bangladesh.">
+<x-layouts.admin :title="__('Delivery Zones')" active="delivery" :subtitle="__('Delivery charge and time for each area of Bangladesh.')">
     <x-slot:actions>
-        <a class="btn btn-outline" href="{{ route('admin.delivery-areas.index') }}"><x-icon name="map-pin" class="icon-sm" /> Areas &amp; zones</a>
+        <a class="btn btn-outline" href="{{ route('admin.delivery-areas.index') }}"><x-icon name="map-pin" class="icon-sm" /> {{ __('Areas & zones') }}</a>
     </x-slot:actions>
 
     <div class="admin-grid">
@@ -21,12 +21,12 @@
                 <table class="admin-table">
                     <thead>
                         <tr>
-                            <th>Zone</th>
-                            <th class="num">Charge</th>
-                            <th>Delivery time</th>
-                            <th class="num">Areas</th>
-                            <th>Status</th>
-                            <th><span class="visually-hidden">Actions</span></th>
+                            <th>{{ __('Zone') }}</th>
+                            <th class="num">{{ __('Charge') }}</th>
+                            <th>{{ __('Delivery time') }}</th>
+                            <th class="num">{{ __('Areas') }}</th>
+                            <th>{{ __('Status') }}</th>
+                            <th><span class="visually-hidden">{{ __('Actions') }}</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -63,42 +63,42 @@
                     @else
                         Free delivery on orders of <x-money :amount="$freeDeliveryThreshold" /> or more.
                     @endif
-                    <a href="{{ route('admin.settings') }}">Change in Settings</a>
+                    <a href="{{ route('admin.settings') }}">{{ __('Change in Settings') }}</a>
                 </span>
             </div>
         </section>
 
         <section class="panel">
-            <h2 class="panel-title">{{ $isEditing ? 'Edit Zone' : 'Add Zone' }}</h2>
+            <h2 class="panel-title">{{ $isEditing ? __('Edit Zone') : __('Add Zone') }}</h2>
             <form method="POST" action="{{ $isEditing ? route('admin.delivery-zones.update', $editingZone) : route('admin.delivery-zones.store') }}">
                 @csrf
                 @if ($isEditing)
                     @method('PUT')
                 @endif
-                <x-form.input name="name" id="zone-name" label="Name" placeholder="e.g. Inside Dhaka" :value="$editingZone?->name" required />
-                @include('admin.products.partials.money-input', ['name' => 'charge', 'label' => 'Delivery Charge', 'value' => $editingZone ? Money::toTakaInput($editingZone->charge) : null, 'required' => true])
+                <x-form.input name="name" id="zone-name" :label="__('Name')" :placeholder="__('e.g. Inside Dhaka')" :value="$editingZone?->name" required />
+                @include('admin.products.partials.money-input', ['name' => 'charge', 'label' => __('Delivery Charge'), 'value' => $editingZone ? Money::toTakaInput($editingZone->charge) : null, 'required' => true])
                 <div class="form-row">
-                    <x-form.input name="min_days" id="zone-min" type="number" min="1" max="30" label="Earliest (days)" :value="$editingZone?->min_days ?? 1" required />
-                    <x-form.input name="max_days" id="zone-max" type="number" min="1" max="30" label="Latest (days)" :value="$editingZone?->max_days ?? 3" required />
+                    <x-form.input name="min_days" id="zone-min" type="number" min="1" max="30" :label="__('Earliest (days)')" :value="$editingZone?->min_days ?? 1" required />
+                    <x-form.input name="max_days" id="zone-max" type="number" min="1" max="30" :label="__('Latest (days)')" :value="$editingZone?->max_days ?? 3" required />
                 </div>
-                <x-form.input name="sort_order" id="zone-sort" type="number" min="0" label="Sort Order" :value="$editingZone?->sort_order ?? $zones->count()" />
+                <x-form.input name="sort_order" id="zone-sort" type="number" min="0" :label="__('Sort Order')" :value="$editingZone?->sort_order ?? $zones->count()" />
                 <label class="switch form-group">
-                    <span class="switch-text"><strong>Active</strong><span>Inactive zones cannot receive orders</span></span>
+                    <span class="switch-text"><strong>{{ __('Active') }}</strong><span>{{ __('Inactive zones cannot receive orders') }}</span></span>
                     <input type="hidden" name="is_active" value="0">
                     <input type="checkbox" name="is_active" value="1" @checked(old('is_active', $editingZone?->is_active ?? true))>
                 </label>
                 @error('is_active')<p class="form-error">{{ $message }}</p>@enderror
-                <button class="btn btn-primary btn-block" type="submit">{{ $isEditing ? 'Update Zone' : 'Save Zone' }}</button>
+                <button class="btn btn-primary btn-block" type="submit">{{ $isEditing ? __('Update Zone') : __('Save Zone') }}</button>
                 @if ($isEditing)
-                    <a class="btn btn-ghost btn-block" href="{{ route('admin.delivery-zones.index') }}">Cancel</a>
+                    <a class="btn btn-ghost btn-block" href="{{ route('admin.delivery-zones.index') }}">{{ __('Cancel') }}</a>
                 @endif
             </form>
         </section>
     </div>
 
     @push('overlays')
-        <x-confirm-modal id="modal-delete-zone" title="Delete this zone?" confirm-label="Yes, Delete" method="DELETE">
-            A zone that districts or thanas still use cannot be deleted. Move them to another zone first.
+        <x-confirm-modal id="modal-delete-zone" :title="__('Delete this zone?')" confirm-label="Yes, Delete" method="DELETE">
+            {{ __('A zone that districts or thanas still use cannot be deleted. Move them to another zone first.') }}
         </x-confirm-modal>
     @endpush
 </x-layouts.admin>

@@ -24,7 +24,7 @@
 
 <div class="form-group">
     <label for="{{ $id }}">
-        {{ $label }}
+        {{ __($label) }}
         @if ($required)<span class="required">*</span>@endif
         @if ($optional)<span class="text-muted">{{ __('(optional)') }}</span>@endif
     </label>
@@ -38,7 +38,7 @@
         @error($name) aria-describedby="{{ $id }}-error" @enderror
     >
     @if ($hint)
-        <p class="form-hint mb-0">{{ $hint }}</p>
+        <p class="form-hint mb-0">{{ __($hint) }}</p>
     @endif
     @error($name)
         <p class="form-error" id="{{ $id }}-error">{{ $message }}</p>

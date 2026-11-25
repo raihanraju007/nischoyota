@@ -26,7 +26,7 @@
     'active',
     'subtitle' => null,
     'backUrl' => null,
-    'backLabel' => 'Back',
+    'backLabel' => __('Back'),
     'actions' => null,
 ])
 
@@ -67,26 +67,26 @@
 </head>
 <body class="admin-body">
     <div class="admin-shell">
-        <aside class="admin-sidebar" id="admin-sidebar" aria-label="Admin navigation">
+        <aside class="admin-sidebar" id="admin-sidebar" aria-label="{{ __('Admin navigation') }}">
             <div class="admin-sidebar-head">
                 <a class="admin-brand" href="{{ route('admin.dashboard') }}">
                     <img src="{{ asset('images/logo-mark.png') }}" alt="" width="34" height="34" decoding="async">
-                    Nischoyota
+                    {{ __('Nischoyota') }}
                 </a>
-                <small>Admin</small>
-                <button class="icon-btn admin-sidebar-close" type="button" data-drawer-close aria-label="Close menu">
+                <small>{{ __('Admin') }}</small>
+                <button class="icon-btn admin-sidebar-close" type="button" data-drawer-close aria-label="{{ __('Close menu') }}">
                     <x-icon name="close" class="icon-sm" />
                 </button>
             </div>
 
             <nav class="admin-nav">
                 @foreach ($menu as $group => $items)
-                    <p class="admin-nav-label">{{ $group }}</p>
+                    <p class="admin-nav-label">{{ __($group) }}</p>
                     @foreach ($items as $key => $item)
                         @continue(($item['adminOnly'] ?? false) && ! $canManageStore)
                         <a href="{{ $item['url'] }}" @class(['active' => $active === $key]) @if ($active === $key) aria-current="page" @endif>
                             <x-icon :name="$item['icon']" class="icon-sm" />
-                            {{ $item['label'] }}
+                            {{ __($item['label']) }}
                             @if (! empty($item['count']))
                                 <span class="nav-count">{{ $item['count'] }}</span>
                             @endif
@@ -97,12 +97,12 @@
 
             <div class="admin-sidebar-foot">
                 <a href="{{ route('home') }}" target="_blank" rel="noopener">
-                    <x-icon name="home" class="icon-sm" /> View Store
+                    <x-icon name="home" class="icon-sm" /> {{ __('View Store') }}
                 </a>
                 <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf
                     <button type="submit" class="logout">
-                        <x-icon name="logout" class="icon-sm" /> Logout
+                        <x-icon name="logout" class="icon-sm" /> {{ __('Logout') }}
                     </button>
                 </form>
             </div>
@@ -110,17 +110,18 @@
 
         <div class="admin-main">
             <header class="admin-topbar">
-                <button class="icon-btn admin-menu-toggle" type="button" data-drawer="admin-sidebar" aria-controls="admin-sidebar" aria-label="Open menu">
+                <button class="icon-btn admin-menu-toggle" type="button" data-drawer="admin-sidebar" aria-controls="admin-sidebar" aria-label="{{ __('Open menu') }}">
                     <x-icon name="menu" />
                 </button>
 
                 <form class="admin-search" role="search" data-demo="Search will work once the backend is built.">
                     <x-icon name="search" class="icon-sm" />
-                    <label for="admin-search" class="visually-hidden">Search orders, products, customers</label>
-                    <input class="input" type="search" id="admin-search" placeholder="Search orders, products, customers…">
+                    <label for="admin-search" class="visually-hidden">{{ __('Search orders, products, customers') }}</label>
+                    <input class="input" type="search" id="admin-search" placeholder="{{ __('Search orders, products, customers…') }}">
                 </form>
 
                 <div class="admin-topbar-actions">
+                    <x-language-switcher />
                     <a class="icon-btn admin-notify" href="{{ route('admin.orders.index', ['status' => 'pending']) }}" aria-label="{{ trans_choice(':count new order|:count new orders', $pendingOrderCount) }}">
                         <x-icon name="bell" />
                         @if ($pendingOrderCount > 0)
@@ -141,11 +142,11 @@
                 <div class="admin-page-head">
                     <div>
                         @if ($backUrl)
-                            <a class="admin-back" href="{{ $backUrl }}">← {{ $backLabel }}</a>
+                            <a class="admin-back" href="{{ $backUrl }}">← {{ __($backLabel) }}</a>
                         @endif
-                        <h1>{{ $title }}</h1>
+                        <h1>{{ __($title) }}</h1>
                         @if ($subtitle)
-                            <p class="admin-page-sub">{{ $subtitle }}</p>
+                            <p class="admin-page-sub">{{ __($subtitle) }}</p>
                         @endif
                     </div>
                     @if ($actions)

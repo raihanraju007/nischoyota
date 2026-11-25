@@ -12,18 +12,18 @@
     <div class="admin-grid">
         <section class="panel panel-flush">
             @if ($attribute->values->isEmpty())
-                <x-empty-state icon="filter" title="No values yet" small>
-                    Add values such as White or XL with the form.
+                <x-empty-state icon="filter" :title="__('No values yet')" small>
+                    {{ __('Add values such as White or XL with the form.') }}
                 </x-empty-state>
             @else
                 <div class="order-table-wrap">
                     <table class="admin-table">
                         <thead>
                             <tr>
-                                <th>Value</th>
-                                <th>Swatch</th>
-                                <th class="num">Sort</th>
-                                <th><span class="visually-hidden">Actions</span></th>
+                                <th>{{ __('Value') }}</th>
+                                <th>{{ __('Swatch') }}</th>
+                                <th class="num">{{ __('Sort') }}</th>
+                                <th><span class="visually-hidden">{{ __('Actions') }}</span></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,39 +62,39 @@
 
         <div>
             <section class="panel">
-                <h2 class="panel-title">{{ $isEditingValue ? 'Edit Value' : 'Add Value' }}</h2>
+                <h2 class="panel-title">{{ $isEditingValue ? __('Edit Value') : __('Add Value') }}</h2>
                 <form method="POST"
                       action="{{ $isEditingValue ? route('admin.attributes.values.update', [$attribute, $editingValue]) : route('admin.attributes.values.store', $attribute) }}">
                     @csrf
                     @if ($isEditingValue)
                         @method('PUT')
                     @endif
-                    <x-form.input name="value" id="value-value" label="Value" placeholder="e.g. White" :value="$editingValue?->value" required />
-                    <x-form.input name="color_hex" id="value-color" label="Swatch Colour" placeholder="#FFFFFF" maxlength="7" :value="$editingValue?->color_hex" optional hint="Only for colours. Hex format, e.g. #1160A8." />
-                    <x-form.input name="sort_order" id="value-sort" type="number" min="0" label="Sort Order" :value="$editingValue?->sort_order ?? $attribute->values->count()" hint="Lower numbers come first." />
-                    <button class="btn btn-primary btn-block" type="submit">{{ $isEditingValue ? 'Update Value' : 'Add Value' }}</button>
+                    <x-form.input name="value" id="value-value" :label="__('Value')" :placeholder="__('e.g. White')" :value="$editingValue?->value" required />
+                    <x-form.input name="color_hex" id="value-color" :label="__('Swatch Colour')" :placeholder="__('#FFFFFF')" maxlength="7" :value="$editingValue?->color_hex" optional hint="Only for colours. Hex format, e.g. #1160A8." />
+                    <x-form.input name="sort_order" id="value-sort" type="number" min="0" :label="__('Sort Order')" :value="$editingValue?->sort_order ?? $attribute->values->count()" hint="Lower numbers come first." />
+                    <button class="btn btn-primary btn-block" type="submit">{{ $isEditingValue ? __('Update Value') : __('Add Value') }}</button>
                     @if ($isEditingValue)
-                        <a class="btn btn-ghost btn-block" href="{{ route('admin.attributes.edit', $attribute) }}">Cancel</a>
+                        <a class="btn btn-ghost btn-block" href="{{ route('admin.attributes.edit', $attribute) }}">{{ __('Cancel') }}</a>
                     @endif
                 </form>
             </section>
 
             <section class="panel">
-                <h2 class="panel-title">Attribute</h2>
+                <h2 class="panel-title">{{ __('Attribute') }}</h2>
                 <form method="POST" action="{{ route('admin.attributes.update', $attribute) }}">
                     @csrf
                     @method('PUT')
-                    <x-form.input name="name" id="attribute-name" label="Name" :value="$attribute->name" required />
-                    <x-form.input name="slug" id="attribute-slug" label="Slug" :value="$attribute->slug" />
-                    <button class="btn btn-outline btn-block" type="submit">Update Attribute</button>
+                    <x-form.input name="name" id="attribute-name" :label="__('Name')" :value="$attribute->name" required />
+                    <x-form.input name="slug" id="attribute-slug" :label="__('Slug')" :value="$attribute->slug" />
+                    <button class="btn btn-outline btn-block" type="submit">{{ __('Update Attribute') }}</button>
                 </form>
             </section>
         </div>
     </div>
 
     @push('overlays')
-        <x-confirm-modal id="modal-delete-value" title="Delete this value?" confirm-label="Yes, Delete" method="DELETE">
-            The value is removed from this attribute.
+        <x-confirm-modal id="modal-delete-value" :title="__('Delete this value?')" confirm-label="Yes, Delete" method="DELETE">
+            {{ __('The value is removed from this attribute.') }}
         </x-confirm-modal>
     @endpush
 </x-layouts.admin>

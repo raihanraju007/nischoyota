@@ -23,7 +23,7 @@
             <x-icon :name="$icon" stroke-width="1.6" />
         </div>
     @endif
-    <{{ $heading }}>{{ $title }}</{{ $heading }}>
+    <{{ $heading }}>{{ __($title) }}</{{ $heading }}>
     <p>{{ $slot }}</p>
     @if ($actionUrl)
         <a class="btn {{ $actionClass }}" href="{{ $actionUrl }}">{{ __($actionLabel) }}</a>

@@ -1768,3 +1768,5 @@ button.language-switcher-option:hover { background: var(--border); }
 @media (max-width: 768px) { .header-actions .language-switcher { display: none; } }
 html[lang="bn"] { --font: "Hind Siliguri", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
 .topbar { position: relative; }
+.admin-topbar-actions .language-switcher { margin-right: 10px; }
+.admin-auth-language { position: absolute; top: 16px; right: 16px; z-index: 5; }

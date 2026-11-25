@@ -13,9 +13,9 @@
     ]));
 @endphp
 
-<x-layouts.admin title="Inventory" active="inventory" subtitle="Stock of every product variant. Every change is logged.">
+<x-layouts.admin :title="__('Inventory')" active="inventory" :subtitle="__('Stock of every product variant. Every change is logged.')">
     <section class="panel panel-flush">
-        <nav class="admin-tabs" aria-label="Filter by stock level">
+        <nav class="admin-tabs" aria-label="{{ __('Filter by stock level') }}">
             @foreach ($tabs as $tab)
                 <a href="{{ $tabUrl($tab) }}" @class(['active' => $filter->tab === $tab]) @if ($filter->tab === $tab) aria-current="page" @endif>
                     {{ $tab->label() }} <span class="tab-count">{{ $tabCounts[$tab->value] }}</span>
@@ -29,18 +29,18 @@
             @endif
             <div class="admin-search">
                 <x-icon name="search" class="icon-sm" />
-                <label for="stock-search" class="visually-hidden">Search stock</label>
-                <input class="input" type="search" id="stock-search" name="search" value="{{ $filter->search }}" placeholder="Product name or SKU…">
+                <label for="stock-search" class="visually-hidden">{{ __('Search stock') }}</label>
+                <input class="input" type="search" id="stock-search" name="search" value="{{ $filter->search }}" placeholder="{{ __('Product name or SKU…') }}">
             </div>
             <div class="toolbar-end">
-                <button class="btn btn-outline btn-sm" type="submit"><x-icon name="search" class="icon-sm" /> Search</button>
+                <button class="btn btn-outline btn-sm" type="submit"><x-icon name="search" class="icon-sm" /> {{ __('Search') }}</button>
             </div>
         </form>
 
         @if ($variants->isEmpty())
-            <x-empty-state icon="box" title="No variants here" small>
+            <x-empty-state icon="box" :title="__('No variants here')" small>
                 @if ($filter->search || $filter->tab->value !== 'all')
-                    <a href="{{ route('admin.inventory.index') }}">Show all stock</a>
+                    <a href="{{ route('admin.inventory.index') }}">{{ __('Show all stock') }}</a>
                 @else
                     Add products first.
                 @endif
@@ -50,11 +50,11 @@
                 <table class="admin-table">
                     <thead>
                         <tr>
-                            <th>Product</th>
-                            <th>SKU</th>
-                            <th class="num">Stock</th>
-                            <th>Status</th>
-                            <th><span class="visually-hidden">Actions</span></th>
+                            <th>{{ __('Product') }}</th>
+                            <th>{{ __('SKU') }}</th>
+                            <th class="num">{{ __('Stock') }}</th>
+                            <th>{{ __('Status') }}</th>
+                            <th><span class="visually-hidden">{{ __('Actions') }}</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -73,7 +73,7 @@
                                 </td>
                                 <td>
                                     <div class="table-actions">
-                                        <a class="btn btn-outline btn-sm" href="{{ route('admin.inventory.show', $variant) }}">Adjust</a>
+                                        <a class="btn btn-outline btn-sm" href="{{ route('admin.inventory.show', $variant) }}">{{ __('Adjust') }}</a>
                                     </div>
                                 </td>
                             </tr>
@@ -83,7 +83,7 @@
             </div>
 
             <div class="panel-foot">
-                <span>Showing {{ $variants->firstItem() }}–{{ $variants->lastItem() }} of {{ $variants->total() }} variants</span>
+                <span>{{ __('Showing :first–:last of :total :products', ['first' => \App\Support\Numerals::localize($variants->firstItem()), 'last' => \App\Support\Numerals::localize($variants->lastItem()), 'total' => \App\Support\Numerals::localize($variants->total()), 'products' => __('variants')]) }}</span>
                 {{ $variants->links() }}
             </div>
         @endif

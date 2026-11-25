@@ -14,8 +14,7 @@
     'color' => 'primary',
     'trend' => null,
     'trendLabel' => 'vs last week',
-    'note' => null,
-])
+    'note' => null, ])
 
 <div class="stat-card">
     <div class="stat-icon stat-icon-{{ $color }}">
@@ -23,9 +22,9 @@
     </div>
     <div class="stat-body">
         <div class="stat-num">{{ $value }}</div>
-        <div class="stat-label">{{ $label }}</div>
+        <div class="stat-label">{{ __($label) }}</div>
         @if ($note)
-            <div class="stat-note">{{ $note }}</div>
+            <div class="stat-note">{{ __($note) }}</div>
         @endif
         @if ($trend)
             <div @class(['stat-trend', str_starts_with($trend, '-') ? 'down' : 'up'])>

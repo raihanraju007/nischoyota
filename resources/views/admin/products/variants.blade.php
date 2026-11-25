@@ -16,10 +16,10 @@
     $hasOptions = $chosenValueIds !== [];
 @endphp
 
-<x-layouts.admin title="Variants" active="products" :subtitle="$product->name"
+<x-layouts.admin :title="__('Variants')" active="products" :subtitle="$product->name"
                  :back-url="route('admin.products.edit', $product)" back-label="Back to product">
     <section class="panel">
-        <h2 class="panel-title">Options</h2>
+        <h2 class="panel-title">{{ __('Options') }}</h2>
         <p class="form-hint">
             Tick the values this product is sold in, then generate. Existing variants keep their SKU, price and stock;
             new ones copy the default variant's price and start with stock 0 (add stock in Inventory); unticked combinations are deleted.
@@ -27,8 +27,8 @@
         </p>
 
         @if ($attributes->isEmpty())
-            <x-empty-state icon="filter" title="No options yet" small :action-url="route('admin.attributes.index')" action-label="Create options">
-                Create options such as Color or Size first.
+            <x-empty-state icon="filter" :title="__('No options yet')" small :action-url="route('admin.attributes.index')" action-label="Create options">
+                {{ __('Create options such as Color or Size first.') }}
             </x-empty-state>
         @else
             <form method="POST" action="{{ route('admin.products.variants.generate', $product) }}">
@@ -47,13 +47,13 @@
                                     {{ $value->value }}
                                 </label>
                             @empty
-                                <span class="text-muted">No values</span>
+                                <span class="text-muted">{{ __('No values') }}</span>
                             @endforelse
                         </fieldset>
                     @endforeach
                 </div>
                 @error('values')<p class="form-error">{{ $message }}</p>@enderror
-                <button class="btn btn-primary" type="submit">Generate variants</button>
+                <button class="btn btn-primary" type="submit">{{ __('Generate variants') }}</button>
             </form>
         @endif
     </section>
@@ -64,7 +64,7 @@
             @method('PUT')
             <div class="panel-head variants-head">
                 <h2 class="panel-title mb-0">{{ trans_choice(':count variant|:count variants', $product->variants->count()) }}</h2>
-                <button class="btn btn-primary btn-sm" type="submit">Save variants</button>
+                <button class="btn btn-primary btn-sm" type="submit">{{ __('Save variants') }}</button>
             </div>
             @error('default_variant')<p class="form-error variants-error">{{ $message }}</p>@enderror
 
@@ -72,15 +72,15 @@
                 <table class="admin-table variants-table">
                     <thead>
                         <tr>
-                            <th>Variant</th>
-                            <th>SKU</th>
-                            <th>Price (৳)</th>
-                            <th>Old price (৳)</th>
-                            @if ($canSeeCostPrice)<th>Cost (৳)</th>@endif
-                            <th>Stock</th>
-                            <th>Photo</th>
-                            <th>Active</th>
-                            <th>Default</th>
+                            <th>{{ __('Variant') }}</th>
+                            <th>{{ __('SKU') }}</th>
+                            <th>{{ __('Price (৳)') }}</th>
+                            <th>{{ __('Old price (৳)') }}</th>
+                            @if ($canSeeCostPrice)<th>{{ __('Cost (৳)') }}</th>@endif
+                            <th>{{ __('Stock') }}</th>
+                            <th>{{ __('Photo') }}</th>
+                            <th>{{ __('Active') }}</th>
+                            <th>{{ __('Default') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -116,7 +116,7 @@
                                 </td>
                                 <td>
                                     <select class="select input-sm" name="{{ $field('product_image_id') }}" aria-label="Photo of {{ $variant->label() }}">
-                                        <option value="">Product cover</option>
+                                        <option value="">{{ __('Product cover') }}</option>
                                         @foreach ($product->images as $image)
                                             <option value="{{ $image->id }}" @selected((int) $old('product_image_id', $variant->product_image_id) === $image->id)>Photo {{ $loop->iteration }}</option>
                                         @endforeach
@@ -137,7 +137,7 @@
 
             @if ($product->images->isNotEmpty())
                 <div class="variant-photos">
-                    <span class="table-sub">Photos:</span>
+                    <span class="table-sub">{{ __('Photos:') }}</span>
                     @foreach ($product->images as $image)
                         <figure>
                             <img src="{{ $image->url() }}" alt="" width="56" height="56" loading="lazy">

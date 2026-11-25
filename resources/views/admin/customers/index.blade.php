@@ -8,11 +8,11 @@
 --}}
 @use('App\Modules\Account\Enums\UserStatus')
 
-<x-layouts.admin title="Customers" active="customers" :subtitle="trans_choice(':count registered customer.|:count registered customers.', $statusCounts['all'])">
+<x-layouts.admin :title="__('Customers')" active="customers" :subtitle="trans_choice(':count registered customer.|:count registered customers.', $statusCounts['all'])">
     <section class="panel panel-flush">
-        <nav class="admin-tabs" aria-label="Filter by status">
+        <nav class="admin-tabs" aria-label="{{ __('Filter by status') }}">
             <a href="{{ route('admin.customers.index', $filter->queryFor(null)) }}" @class(['active' => $filter->status === null]) @if ($filter->status === null) aria-current="page" @endif>
-                All <span class="tab-count">{{ $statusCounts['all'] }}</span>
+                {{ __('All') }} <span class="tab-count">{{ $statusCounts['all'] }}</span>
             </a>
             @foreach ($statuses as $status)
                 <a href="{{ route('admin.customers.index', $filter->queryFor($status)) }}" @class(['active' => $filter->status === $status]) @if ($filter->status === $status) aria-current="page" @endif>
@@ -27,18 +27,18 @@
             @endif
             <div class="admin-search">
                 <x-icon name="search" class="icon-sm" />
-                <label for="customer-search" class="visually-hidden">Search customers</label>
-                <input class="input" type="search" id="customer-search" name="search" value="{{ $filter->search }}" placeholder="Name, phone or email…">
+                <label for="customer-search" class="visually-hidden">{{ __('Search customers') }}</label>
+                <input class="input" type="search" id="customer-search" name="search" value="{{ $filter->search }}" placeholder="{{ __('Name, phone or email…') }}">
             </div>
             <div class="toolbar-end">
-                <button class="btn btn-outline btn-sm" type="submit"><x-icon name="search" class="icon-sm" /> Search</button>
+                <button class="btn btn-outline btn-sm" type="submit"><x-icon name="search" class="icon-sm" /> {{ __('Search') }}</button>
             </div>
         </form>
 
         @if ($customers->isEmpty())
-            <x-empty-state icon="users" title="No customers here" small>
+            <x-empty-state icon="users" :title="__('No customers here')" small>
                 @if ($filter->search || $filter->status)
-                    <a href="{{ route('admin.customers.index') }}">Show all customers</a>
+                    <a href="{{ route('admin.customers.index') }}">{{ __('Show all customers') }}</a>
                 @else
                     Customers appear here when they register.
                 @endif
@@ -48,13 +48,13 @@
                 <table class="admin-table">
                     <thead>
                         <tr>
-                            <th>Customer</th>
-                            <th>Phone</th>
-                            <th class="num">Orders</th>
-                            <th class="num">Total Spent</th>
-                            <th>Joined</th>
-                            <th>Status</th>
-                            <th><span class="visually-hidden">Actions</span></th>
+                            <th>{{ __('Customer') }}</th>
+                            <th>{{ __('Phone') }}</th>
+                            <th class="num">{{ __('Orders') }}</th>
+                            <th class="num">{{ __('Total Spent') }}</th>
+                            <th>{{ __('Joined') }}</th>
+                            <th>{{ __('Status') }}</th>
+                            <th><span class="visually-hidden">{{ __('Actions') }}</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,14 +69,14 @@
                                         <x-avatar :name="$customer->name" />
                                         <div>
                                             <a class="link" href="{{ route('admin.customers.show', $customer->id) }}"><strong>{{ $customer->name }}</strong></a>
-                                            <span class="table-sub">{{ $customer->email ?? 'No email' }}</span>
+                                            <span class="table-sub">{{ $customer->email ?? __('No email') }}</span>
                                         </div>
                                     </div>
                                 </td>
                                 <td>{{ $customer->phone }}</td>
                                 <td class="num">{{ $stats->orderCount }}</td>
                                 <td class="num strong"><x-money :amount="$stats->deliveredTotal" /></td>
-                                <td class="text-light">{{ $customer->created_at->timezone(config('shop.timezone'))->format('d M Y') }}</td>
+                                <td class="text-light">{{ \App\Support\Numerals::date($customer->created_at->timezone(config('shop.timezone')), 'd M Y') }}</td>
                                 <td><x-admin.status :status="strtolower($customer->status->label())" /></td>
                                 <td>
                                     <div class="table-actions">
@@ -105,15 +105,15 @@
             </div>
 
             <div class="panel-foot">
-                <span>Showing {{ $customers->firstItem() }}–{{ $customers->lastItem() }} of {{ $customers->total() }} customers</span>
+                <span>{{ __('Showing :first–:last of :total :products', ['first' => \App\Support\Numerals::localize($customers->firstItem()), 'last' => \App\Support\Numerals::localize($customers->lastItem()), 'total' => \App\Support\Numerals::localize($customers->total()), 'products' => __('customers')]) }}</span>
                 {{ $customers->links() }}
             </div>
         @endif
     </section>
 
     @push('overlays')
-        <x-confirm-modal id="modal-block-customer" icon="lock" title="Block this customer?" confirm-label="Yes, Block" method="POST">
-            Blocked customers cannot sign in or place new orders, also not as a guest with the same phone. Use this for fake or abusive orders.
+        <x-confirm-modal id="modal-block-customer" icon="lock" :title="__('Block this customer?')" confirm-label="Yes, Block" method="POST">
+            {{ __('Blocked customers cannot sign in or place new orders, also not as a guest with the same phone. Use this for fake or abusive orders.') }}
         </x-confirm-modal>
     @endpush
 </x-layouts.admin>

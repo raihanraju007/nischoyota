@@ -10,7 +10,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <meta name="robots" content="noindex, nofollow">
 
-<title>{{ $title }} — Nischoyota Admin</title>
+<title>{{ __($title) }} — {{ __('Nischoyota Admin') }}</title>
 <meta name="theme-color" content="#1b3320">
 
 <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/favicon-32.png') }}">

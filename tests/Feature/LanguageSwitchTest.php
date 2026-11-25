@@ -52,11 +52,16 @@ it('turns Bangla digits typed into a form back into ASCII', function () {
     expect(Numerals::toAscii('০১৭১২৩৪৫৬৭৮'))->toBe('01712345678');
 });
 
-it('keeps the admin panel in English even if the visitor chose Bangla', function () {
+it('shows the admin panel in the chosen language too', function () {
     $this->withCookie(Locale::COOKIE_NAME, 'bn')
         ->get(route('admin.login'))
         ->assertOk()
-        ->assertSee('<html lang="en">', escape: false);
+        ->assertSee('<html lang="bn">', escape: false);
+
+    actingAsAdmin()->withCookie(Locale::COOKIE_NAME, 'bn')
+        ->get(route('admin.dashboard'))
+        ->assertOk()
+        ->assertSee('ড্যাশবোর্ড');
 });
 
 it('shows Bangla product and category names in Bangla and English otherwise', function () {

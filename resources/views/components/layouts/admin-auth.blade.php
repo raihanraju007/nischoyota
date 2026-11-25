@@ -11,6 +11,7 @@
     <x-admin.head :title="$title" />
 </head>
 <body class="admin-body">
+    <div class="admin-auth-language"><x-language-switcher /></div>
     <main class="admin-auth">
         {{ $slot }}
     </main>

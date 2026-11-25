@@ -7,9 +7,9 @@
 --}}
 @use('App\Modules\Review\Enums\ReviewStatus')
 
-<x-layouts.admin title="Reviews" active="reviews" subtitle="Approve reviews before they appear on product pages.">
+<x-layouts.admin :title="__('Reviews')" active="reviews" :subtitle="__('Approve reviews before they appear on product pages.')">
     <section class="panel panel-flush">
-        <nav class="admin-tabs" aria-label="Filter by status">
+        <nav class="admin-tabs" aria-label="{{ __('Filter by status') }}">
             @foreach ($statuses as $status)
                 <a href="{{ route('admin.reviews.index', $status === ReviewStatus::Pending ? [] : ['status' => $status->value]) }}"
                     @class(['active' => $activeStatus === $status]) @if ($activeStatus === $status) aria-current="page" @endif>
@@ -29,11 +29,11 @@
                 <table class="admin-table">
                     <thead>
                         <tr>
-                            <th>Product</th>
-                            <th>Review</th>
-                            <th>Customer</th>
-                            <th>Status</th>
-                            <th><span class="visually-hidden">Actions</span></th>
+                            <th>{{ __('Product') }}</th>
+                            <th>{{ __('Review') }}</th>
+                            <th>{{ __('Customer') }}</th>
+                            <th>{{ __('Status') }}</th>
+                            <th><span class="visually-hidden">{{ __('Actions') }}</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,13 +47,13 @@
                                 </td>
                                 <td>
                                     <x-stars :rating="$review->rating" />
-                                    <span class="visually-hidden">{{ $review->rating }} out of 5</span>
+                                    <span class="visually-hidden">{{ __(':rating out of 5', ['rating' => \App\Support\Numerals::localize($review->rating)]) }}</span>
                                     <span class="table-sub table-wrap">{{ $review->comment }}</span>
                                 </td>
                                 <td>
                                     {{ $review->user->name }}
                                     <span class="table-sub">
-                                        {{ $review->created_at->timezone(config('shop.timezone'))->format('d M Y') }}@if ($review->is_verified_purchase) · <span class="text-success">Verified</span>@endif
+                                        {{ \App\Support\Numerals::date($review->created_at->timezone(config('shop.timezone')), 'd M Y') }}@if ($review->is_verified_purchase) · <span class="text-success">{{ __('Verified') }}</span>@endif
                                     </span>
                                 </td>
                                 <td><x-admin.status :status="$review->status->value" /></td>
@@ -84,7 +84,7 @@
             </div>
 
             <div class="panel-foot">
-                <span>Showing {{ $reviews->firstItem() }}–{{ $reviews->lastItem() }} of {{ $reviews->total() }} reviews</span>
+                <span>{{ __('Showing :first–:last of :total :products', ['first' => \App\Support\Numerals::localize($reviews->firstItem()), 'last' => \App\Support\Numerals::localize($reviews->lastItem()), 'total' => \App\Support\Numerals::localize($reviews->total()), 'products' => __('reviews')]) }}</span>
                 {{ $reviews->links() }}
             </div>
         @endif

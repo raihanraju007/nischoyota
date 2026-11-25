@@ -7,28 +7,28 @@
     $timezone = config('shop.timezone');
 @endphp
 
-<x-layouts.admin title="Coupons" active="coupons" subtitle="Discount codes customers enter at checkout.">
+<x-layouts.admin :title="__('Coupons')" active="coupons" :subtitle="__('Discount codes customers enter at checkout.')">
     <x-slot:actions>
-        <a class="btn btn-primary" href="{{ route('admin.coupons.create') }}"><x-icon name="plus" class="icon-sm" /> Create Coupon</a>
+        <a class="btn btn-primary" href="{{ route('admin.coupons.create') }}"><x-icon name="plus" class="icon-sm" /> {{ __('Create Coupon') }}</a>
     </x-slot:actions>
 
     <section class="panel panel-flush">
         @if ($coupons->isEmpty())
-            <x-empty-state icon="ticket" title="No coupons yet" small :action-url="route('admin.coupons.create')" action-label="Create Coupon">
-                Create a code such as SAVE120 for customers to use at checkout.
+            <x-empty-state icon="ticket" :title="__('No coupons yet')" small :action-url="route('admin.coupons.create')" action-label="Create Coupon">
+                {{ __('Create a code such as SAVE120 for customers to use at checkout.') }}
             </x-empty-state>
         @else
             <div class="order-table-wrap">
                 <table class="admin-table">
                     <thead>
                         <tr>
-                            <th>Code</th>
-                            <th>Discount</th>
-                            <th class="num">Min. Order</th>
-                            <th class="num">Used</th>
-                            <th>Valid</th>
-                            <th>Status</th>
-                            <th><span class="visually-hidden">Actions</span></th>
+                            <th>{{ __('Code') }}</th>
+                            <th>{{ __('Discount') }}</th>
+                            <th class="num">{{ __('Min. Order') }}</th>
+                            <th class="num">{{ __('Used') }}</th>
+                            <th>{{ __('Valid') }}</th>
+                            <th>{{ __('Status') }}</th>
+                            <th><span class="visually-hidden">{{ __('Actions') }}</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,9 +46,9 @@
                                 <td class="num">{{ $coupon->used_count }}{{ $coupon->usage_limit ? ' / '.$coupon->usage_limit : '' }}</td>
                                 <td class="text-light">
                                     @if ($coupon->starts_at)
-                                        From {{ $coupon->starts_at->timezone($timezone)->format('d M Y') }}<br>
+                                        {{ __('From :date', ['date' => \App\Support\Numerals::date($coupon->starts_at->timezone($timezone), 'd M Y')]) }}<br>
                                     @endif
-                                    {{ $coupon->expires_at ? 'Until '.$coupon->expires_at->timezone($timezone)->format('d M Y') : 'No end date' }}
+                                    {{ $coupon->expires_at ? __('Until :date', ['date' => \App\Support\Numerals::date($coupon->expires_at->timezone($timezone))]) : __('No end date') }}
                                 </td>
                                 <td><x-admin.status :status="$status->value" /></td>
                                 <td>
@@ -75,8 +75,8 @@
     </section>
 
     @push('overlays')
-        <x-confirm-modal id="modal-delete-coupon" title="Delete this coupon?" confirm-label="Yes, Delete" method="DELETE">
-            Customers will no longer be able to use this code. Past orders keep their discount.
+        <x-confirm-modal id="modal-delete-coupon" :title="__('Delete this coupon?')" confirm-label="Yes, Delete" method="DELETE">
+            {{ __('Customers will no longer be able to use this code. Past orders keep their discount.') }}
         </x-confirm-modal>
     @endpush
 </x-layouts.admin>

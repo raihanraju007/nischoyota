@@ -9,13 +9,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Applies the visitor's chosen language (cookie), falling back to the app default (Bangla).
- * The staff admin panel is English-only.
+ * Printed order documents stay English: they are handed to couriers and need no Bangla font.
  */
 final class SetLocale
 {
+    private const ENGLISH_ONLY_ROUTES = ['admin.orders.invoice', 'admin.orders.packing-slip', 'admin.orders.packing-slips'];
+
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->is('admin', 'admin/*')) {
+        if ($request->routeIs(...self::ENGLISH_ONLY_ROUTES)) {
             app()->setLocale(Locale::English->value);
 
             return $next($request);

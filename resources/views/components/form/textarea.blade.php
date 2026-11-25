@@ -15,7 +15,7 @@
 
 <div class="form-group">
     <label for="{{ $id }}">
-        {{ $label }}
+        {{ __($label) }}
         @if ($required)<span class="required">*</span>@endif
     </label>
     <textarea {{ $attributes->class(['textarea', 'is-invalid' => $errors->has($name)]) }} id="{{ $id }}" name="{{ $name }}" @required($required)>{{ $currentValue }}</textarea>

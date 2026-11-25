@@ -11,16 +11,16 @@
     $isBlocked = $customer->status === UserStatus::Blocked;
 @endphp
 
-<x-layouts.admin :title="$customer->name" active="customers" :subtitle="'Customer since '.$customer->created_at->timezone($timezone)->format('d M Y')"
+<x-layouts.admin :title="$customer->name" active="customers" :subtitle="__('Customer since :date', ['date' => \App\Support\Numerals::date($customer->created_at->timezone($timezone), 'd M Y')])"
     :back-url="route('admin.customers.index')" back-label="Customers">
     <x-slot:actions>
         @if ($isBlocked)
             <form method="POST" action="{{ route('admin.customers.unblock', $customer->id) }}">
                 @csrf
-                <button class="btn btn-outline" type="submit">Unblock Customer</button>
+                <button class="btn btn-outline" type="submit">{{ __('Unblock Customer') }}</button>
             </form>
         @else
-            <button class="btn btn-danger-soft" type="button" data-modal="modal-block-customer">Block Customer</button>
+            <button class="btn btn-danger-soft" type="button" data-modal="modal-block-customer">{{ __('Block Customer') }}</button>
         @endif
     </x-slot:actions>
 
@@ -31,16 +31,16 @@
                     <h2>Orders ({{ $stats->orderCount }})</h2>
                 </div>
                 @if ($orders->isEmpty())
-                    <x-empty-state icon="cart" title="No orders yet" small>This customer has not ordered anything.</x-empty-state>
+                    <x-empty-state icon="cart" :title="__('No orders yet')" small>{{ __('This customer has not ordered anything.') }}</x-empty-state>
                 @else
                     <div class="order-table-wrap">
                         <table class="admin-table">
                             <thead>
                                 <tr>
-                                    <th>Order</th>
-                                    <th>Items</th>
-                                    <th class="num">Total</th>
-                                    <th>Status</th>
+                                    <th>{{ __('Order') }}</th>
+                                    <th>{{ __('Items') }}</th>
+                                    <th class="num">{{ __('Total') }}</th>
+                                    <th>{{ __('Status') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -48,7 +48,7 @@
                                     <tr>
                                         <td>
                                             <a class="link" href="{{ route('admin.orders.show', $order) }}">#{{ $order->order_number }}</a>
-                                            <span class="table-sub">{{ $order->placed_at->timezone($timezone)->format('d M Y, h:i A') }}</span>
+                                            <span class="table-sub">{{ \App\Support\Numerals::date($order->placed_at->timezone($timezone), 'd M Y, h:i A') }}</span>
                                         </td>
                                         <td>{{ (int) $order->item_count }}</td>
                                         <td class="num strong"><x-money :amount="$order->total" /></td>
@@ -60,7 +60,7 @@
                     </div>
                     @if ($orders->hasPages())
                         <div class="panel-foot">
-                            <span>Showing {{ $orders->firstItem() }}–{{ $orders->lastItem() }} of {{ $orders->total() }} orders</span>
+                            <span>{{ __('Showing :first–:last of :total :products', ['first' => \App\Support\Numerals::localize($orders->firstItem()), 'last' => \App\Support\Numerals::localize($orders->lastItem()), 'total' => \App\Support\Numerals::localize($orders->total()), 'products' => __('orders')]) }}</span>
                             {{ $orders->links() }}
                         </div>
                     @endif
@@ -78,14 +78,14 @@
                         @endforeach
                     </address>
                 @empty
-                    <p class="text-muted mb-0">No saved addresses.</p>
+                    <p class="text-muted mb-0">{{ __('No saved addresses.') }}</p>
                 @endforelse
             </section>
         </div>
 
         <div>
             <section class="panel">
-                <h2 class="panel-title">Profile</h2>
+                <h2 class="panel-title">{{ __('Profile') }}</h2>
                 <div class="table-person form-group">
                     <x-avatar :name="$customer->name" />
                     <div>
@@ -94,19 +94,19 @@
                     </div>
                 </div>
                 <dl class="info-list">
-                    <div><dt>Phone</dt><dd><a href="tel:{{ $customer->phone }}">{{ $customer->phone }}</a>@if (! $customer->phone_verified_at) (not verified)@endif</dd></div>
-                    <div><dt>Email</dt><dd>{{ $customer->email ?? '—' }}</dd></div>
-                    <div><dt>Joined</dt><dd>{{ $customer->created_at->timezone($timezone)->format('d M Y') }}</dd></div>
-                    <div><dt>Last login</dt><dd>{{ $customer->last_login_at?->timezone($timezone)->format('d M Y, h:i A') ?? '—' }}</dd></div>
+                    <div><dt>{{ __('Phone') }}</dt><dd><a href="tel:{{ $customer->phone }}">{{ $customer->phone }}</a>@if (! $customer->phone_verified_at) (not verified)@endif</dd></div>
+                    <div><dt>{{ __('Email') }}</dt><dd>{{ $customer->email ?? '—' }}</dd></div>
+                    <div><dt>{{ __('Joined') }}</dt><dd>{{ \App\Support\Numerals::date($customer->created_at->timezone($timezone), 'd M Y') }}</dd></div>
+                    <div><dt>{{ __('Last login') }}</dt><dd>{{ $customer->last_login_at?->timezone($timezone)->format('d M Y, h:i A') ?? '—' }}</dd></div>
                 </dl>
             </section>
 
             <section class="panel">
-                <h2 class="panel-title">Order Summary</h2>
+                <h2 class="panel-title">{{ __('Order Summary') }}</h2>
                 <dl class="info-list">
-                    <div><dt>Orders</dt><dd>{{ $stats->orderCount }}</dd></div>
-                    <div><dt>Spent (delivered)</dt><dd><x-money :amount="$stats->deliveredTotal" /></dd></div>
-                    <div><dt>Cancelled</dt><dd>{{ $stats->cancelledCount }}</dd></div>
+                    <div><dt>{{ __('Orders') }}</dt><dd>{{ $stats->orderCount }}</dd></div>
+                    <div><dt>{{ __('Spent (delivered)') }}</dt><dd><x-money :amount="$stats->deliveredTotal" /></dd></div>
+                    <div><dt>{{ __('Cancelled') }}</dt><dd>{{ $stats->cancelledCount }}</dd></div>
                 </dl>
             </section>
         </div>
@@ -114,7 +114,7 @@
 
     @unless ($isBlocked)
         @push('overlays')
-            <x-confirm-modal id="modal-block-customer" icon="lock" title="Block this customer?" confirm-label="Yes, Block" method="POST" :action="route('admin.customers.block', $customer->id)">
+            <x-confirm-modal id="modal-block-customer" icon="lock" :title="__('Block this customer?')" confirm-label="Yes, Block" method="POST" :action="route('admin.customers.block', $customer->id)">
                 {{ $customer->name }} will be signed out and cannot sign in or place new orders, also not as a guest with {{ $customer->phone }}.
             </x-confirm-modal>
         @endpush

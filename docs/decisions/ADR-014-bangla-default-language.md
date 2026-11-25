@@ -16,7 +16,7 @@ Option 1 for now.
 - `APP_LOCALE=bn`, fallback `en`. The visitor's choice is kept in a `locale` cookie (`SetLocale` middleware, `POST /language/{locale}`, switcher in the header and mobile menu).
 - English strings stay the translation keys (`__('Add to Cart')`); Bangla lives in `lang/bn.json` and `lang/bn/validation.php`.
 - Digits (prices, dates, counts) show as Bangla numerals in Bangla mode via `App\Support\Numerals`; stored values and form input stay ASCII.
-- Storefront and customer account are translated. The admin panel is forced to English by `SetLocale`.
+- Storefront, customer account and the admin panel are translated (admin also opens in Bangla). Printed invoices and packing slips stay English.
 - Clothing is paused with `config('shop.clothing_enabled')` (`SHOP_CLOTHING_ENABLED`, default `false`). It only gates seeding and the home promo banner; no clothing code or table was removed.
 
 ## Consequences

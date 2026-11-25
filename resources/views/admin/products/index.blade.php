@@ -16,13 +16,13 @@
     ]));
 @endphp
 
-<x-layouts.admin title="Products" active="products" :subtitle="trans_choice(':count product in your catalog.|:count products in your catalog.', $tabCounts['all'])">
+<x-layouts.admin :title="__('Products')" active="products" :subtitle="trans_choice(':count product in your catalog.|:count products in your catalog.', $tabCounts['all'])">
     <x-slot:actions>
-        <a class="btn btn-primary" href="{{ route('admin.products.create') }}"><x-icon name="plus" class="icon-sm" /> Add Product</a>
+        <a class="btn btn-primary" href="{{ route('admin.products.create') }}"><x-icon name="plus" class="icon-sm" /> {{ __('Add Product') }}</a>
     </x-slot:actions>
 
     <section class="panel panel-flush">
-        <nav class="admin-tabs" aria-label="Filter by status">
+        <nav class="admin-tabs" aria-label="{{ __('Filter by status') }}">
             @foreach ($tabs as $tab)
                 <a href="{{ $tabUrl($tab) }}" @class(['active' => $filter->tab === $tab]) @if ($filter->tab === $tab) aria-current="page" @endif>
                     {{ $tab->label() }} <span class="tab-count">{{ $tabCounts[$tab->value] }}</span>
@@ -36,42 +36,42 @@
             @endif
             <div class="admin-search">
                 <x-icon name="search" class="icon-sm" />
-                <label for="product-search" class="visually-hidden">Search products</label>
-                <input class="input" type="search" id="product-search" name="search" value="{{ $filter->search }}" placeholder="Product name or SKU…">
+                <label for="product-search" class="visually-hidden">{{ __('Search products') }}</label>
+                <input class="input" type="search" id="product-search" name="search" value="{{ $filter->search }}" placeholder="{{ __('Product name or SKU…') }}">
             </div>
-            <label for="product-category" class="visually-hidden">Category</label>
+            <label for="product-category" class="visually-hidden">{{ __('Category') }}</label>
             <select class="select" id="product-category" name="category">
-                <option value="">All categories</option>
+                <option value="">{{ __('All categories') }}</option>
                 @foreach ($categoryOptions as $categoryId => $categoryLabel)
                     <option value="{{ $categoryId }}" @selected($filter->categoryId === $categoryId)>{{ $categoryLabel }}</option>
                 @endforeach
             </select>
             <div class="toolbar-end">
-                <button class="btn btn-outline btn-sm" type="submit"><x-icon name="filter" class="icon-sm" /> Filter</button>
+                <button class="btn btn-outline btn-sm" type="submit"><x-icon name="filter" class="icon-sm" /> {{ __('Filter') }}</button>
             </div>
         </form>
 
         @if ($products->isEmpty())
             @if ($filter->search || $filter->categoryId || $filter->tab->value !== 'all')
-                <x-empty-state icon="search-off" title="No products match these filters" small>
-                    <a href="{{ route('admin.products.index') }}">Clear all filters</a>
+                <x-empty-state icon="search-off" :title="__('No products match these filters')" small>
+                    <a href="{{ route('admin.products.index') }}">{{ __('Clear all filters') }}</a>
                 </x-empty-state>
             @else
-                <x-empty-state icon="box" title="No products yet" small :action-url="route('admin.products.create')" action-label="Add Product">
-                    Add your first product to start selling.
+                <x-empty-state icon="box" :title="__('No products yet')" small :action-url="route('admin.products.create')" action-label="Add Product">
+                    {{ __('Add your first product to start selling.') }}
                 </x-empty-state>
             @endif
         @else
             <form id="bulk-form" class="admin-toolbar bulk-bar" method="POST" action="{{ route('admin.products.bulk') }}">
                 @csrf
-                <label for="bulk-action" class="visually-hidden">Bulk action</label>
+                <label for="bulk-action" class="visually-hidden">{{ __('Bulk action') }}</label>
                 <select class="select" id="bulk-action" name="action">
-                    <option value="">Bulk action…</option>
+                    <option value="">{{ __('Bulk action…') }}</option>
                     @foreach ($bulkActions as $bulkAction)
                         <option value="{{ $bulkAction->value }}">{{ $bulkAction->label() }}</option>
                     @endforeach
                 </select>
-                <button class="btn btn-outline btn-sm" type="submit">Apply to selected</button>
+                <button class="btn btn-outline btn-sm" type="submit">{{ __('Apply to selected') }}</button>
                 @error('ids')<span class="form-error mb-0">{{ $message }}</span>@enderror
                 @error('action')<span class="form-error mb-0">{{ $message }}</span>@enderror
             </form>
@@ -80,13 +80,13 @@
                 <table class="admin-table">
                     <thead>
                         <tr>
-                            <th class="col-check"><input type="checkbox" data-check-all="ids[]" aria-label="Select all products on this page"></th>
-                            <th>Product</th>
-                            <th>Category</th>
-                            <th class="num">Price</th>
-                            <th class="num">Stock</th>
-                            <th>Status</th>
-                            <th><span class="visually-hidden">Actions</span></th>
+                            <th class="col-check"><input type="checkbox" data-check-all="ids[]" aria-label="{{ __('Select all products on this page') }}"></th>
+                            <th>{{ __('Product') }}</th>
+                            <th>{{ __('Category') }}</th>
+                            <th class="num">{{ __('Price') }}</th>
+                            <th class="num">{{ __('Stock') }}</th>
+                            <th>{{ __('Status') }}</th>
+                            <th><span class="visually-hidden">{{ __('Actions') }}</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -110,12 +110,12 @@
                                 <td>{{ $product->category->name }}</td>
                                 @php($stock = $product->activeStock())
                                 <td class="num strong">
-                                    @if ($product->variants_count > 1)<span class="table-sub">from</span>@endif
+                                    @if ($product->variants_count > 1)<span class="table-sub">{{ __('from') }}</span>@endif
                                     <x-money :amount="$product->min_price" />
                                 </td>
                                 <td @class(['num', 'stock-out' => $stock <= 0, 'stock-low' => $stock > 0 && $stock <= $lowStockThreshold])>
                                     {{ $stock }}
-                                    @if ($product->variants_count > 1)<span class="table-sub">{{ $product->variants_count }} variants</span>@endif
+                                    @if ($product->variants_count > 1)<span class="table-sub">{{ __(':count variants', ['count' => \App\Support\Numerals::localize($product->variants_count)]) }}</span>@endif
                                 </td>
                                 <td><x-admin.status :status="$product->status->value" /></td>
                                 <td>
@@ -136,15 +136,15 @@
             </div>
 
             <div class="panel-foot">
-                <span>Showing {{ $products->firstItem() }}–{{ $products->lastItem() }} of {{ $products->total() }} products</span>
+                <span>{{ __('Showing :first–:last of :total :products', ['first' => \App\Support\Numerals::localize($products->firstItem()), 'last' => \App\Support\Numerals::localize($products->lastItem()), 'total' => \App\Support\Numerals::localize($products->total()), 'products' => __('products')]) }}</span>
                 {{ $products->links() }}
             </div>
         @endif
     </section>
 
     @push('overlays')
-        <x-confirm-modal id="modal-delete-product" title="Delete this product?" confirm-label="Yes, Delete" method="DELETE">
-            The product, its stock record and its images are removed. To hide it instead, set its status to Archived.
+        <x-confirm-modal id="modal-delete-product" :title="__('Delete this product?')" confirm-label="Yes, Delete" method="DELETE">
+            {{ __('The product, its stock record and its images are removed. To hide it instead, set its status to Archived.') }}
         </x-confirm-modal>
     @endpush
 </x-layouts.admin>

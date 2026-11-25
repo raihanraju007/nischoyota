@@ -13,7 +13,7 @@
             <div class="order-table-wrap">
                 <table class="admin-table">
                     <thead>
-                        <tr><th>Upazila / Thana</th><th>Zone</th></tr>
+                        <tr><th>{{ __('Upazila / Thana') }}</th><th>{{ __('Zone') }}</th></tr>
                     </thead>
                     <tbody>
                         @foreach ($district->upazilas as $upazila)
@@ -35,7 +35,7 @@
             </div>
             <div class="panel-foot">
                 <span>{{ trans_choice(':count upazila/thana|:count upazilas/thanas', $district->upazilas->count()) }}</span>
-                <button class="btn btn-primary btn-sm" type="submit">Save thana zones</button>
+                <button class="btn btn-primary btn-sm" type="submit">{{ __('Save thana zones') }}</button>
             </div>
         </form>
     </section>
